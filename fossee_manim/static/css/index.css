@@ -1,0 +1,110 @@
+#brand{
+    font-size: 2vw;
+    font-family: "Times New Roman", Georgia, serif;
+}
+
+#tag {
+    padding: 15 15 15 15;
+    font-size: 3vw;
+    color: goldenrod;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+#search_bar {
+    padding-top: 1.5%;
+}
+
+form.example input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+}
+
+form.example button {
+    float: left;
+    margin-left: 1%;
+    height: 6%;
+    width: 12%;
+    background:#F5404C;
+    color: white;
+    font-size: 150%;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+
+form.example button:hover {
+    background: red;
+}
+
+form.example::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+#btns {
+    padding: 25 25 25 25;
+    font-size: 155%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#btns > a {
+    color: white;
+}
+iframe {
+    margin-bottom: 3%;
+}
+hr {
+    color: darkgrey;
+    background-color: darkgray;
+    height: 3px;
+}
+
+#r4 {
+    margin-bottom: 1%;
+}
+
+
+  /* Style all font awesome icons */
+.fa {
+    padding: 6px;
+    font-size: 40px;
+    width: 40px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+/* Facebook */
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+
+}
+/* Google */
+.fa-google {
+  background: #dd4b39;
+  color: white;
+}
+/* Youtube */
+.fa-youtube {
+  background: #bb0000;
+  color: white;
+}
+
+#social a{
+    color: white;
+}
