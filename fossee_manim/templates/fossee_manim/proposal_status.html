@@ -1,0 +1,53 @@
+{% extends 'fossee_manim/base.html' %}
+
+	{% block title %}
+		Proposal Status
+	{% endblock %}
+
+{% block content %}
+    <br>
+	<div class="container" align="center">
+	{% if request.user.profile.position == 'contributor' %}
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		{% for an in anime %}
+			<tbody>
+				<tr>
+					<td>{{ an.title }}</td>
+					<td><span class="badge">{{ an.status }}</span></td>
+					<td><a href="{% url 'edit_proposal' an.id %}"><button type="button" class="btn btn-info">Edit</button></a></td>
+				</tr>
+			</tbody>
+		{% endfor %}
+	</table>
+		{% else %}
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Contributor Name</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		{% for an in anime_list %}
+			<tbody>
+				<tr>
+					<td>{{ an.title }}</td>
+					<td>{{ an.contributor.get_full_name }}</td>
+					<td><span class="badge">{{ an.status }}</span></td>
+					<td><a href="{% url 'edit_proposal' an.id %}"><button type="button" class="btn btn-info">View</button></a></td>
+				</tr>
+			</tbody>
+		{% endfor %}
+		{% endif %}
+		
+	</table>
+	</div>
+	
+	{% endblock %}
