@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from .forms import (
             UserRegistrationForm, UserLoginForm,
-            ProfileForm
+            ProfileForm, AnimationProposal, 
+            CommentForm
             )
 from .models import (
-            Profile, User,
-            has_profile
+            Profile, User, AnimationStats,
+            has_profile, Animation, Comment
             )
 from datetime import datetime, date
 from django.contrib.auth import login, logout, authenticate
@@ -21,11 +22,17 @@ from django.conf import settings
 from os import listdir, path, sep
 from zipfile import ZipFile
 from django.contrib import messages
+from django.db.models import Q
 import datetime as dt
+import os
 try:
     from StringIO import StringIO as string_io
 except ImportError:
     from io import BytesIO as string_io
+
+
+def check_repo(link):
+    return True if 'github.com' in link else False
 
 
 def is_email_checked(user):
@@ -46,7 +53,7 @@ def index(request):
     form = UserLoginForm()
     if user.is_authenticated() and is_email_checked(user):
         if user.groups.filter(name='reviewer').count() > 0:
-            return redirect('/manage/')
+            return redirect('/view_profile/')
         return redirect('/view_profile/')
     elif request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -56,7 +63,7 @@ def index(request):
             if is_superuser(user):
                 return redirect("/admin")
             if user.groups.filter(name='reviewer').count() > 0:
-                return redirect('/manage/')
+                return redirect('/view_profile/')
             return redirect('/view_profile/')
 
     return render(request, "fossee_manim/index.html", {"form": form})
@@ -167,7 +174,6 @@ def user_register(request):
     return render(request, "fossee_manim/registration/register.html", {"form": form})
 
 
-
 @login_required
 def view_profile(request):
     """ view instructor and coordinator profile """
@@ -196,9 +202,9 @@ def edit_profile(request):
         return redirect('/admin')
     if is_email_checked(user):
         if is_reviewer(user):
-            template = 'fossee_manim/manage.html'
+            template = 'fossee_manim/view_profile.html'
         else:
-            template = 'fossee_manim/booking.html'
+            template = 'fossee_manim/proposal_status.html'
     else:
         try:
             logout(request)
@@ -230,4 +236,122 @@ def edit_profile(request):
             return render(request, 'fossee_manim/edit_profile.html', context)
     else:
         form = ProfileForm(user=user, instance=profile)
-        return render(request, 'fossee_manim/edit_profile.html', {'form': form})
+        return render(request, 'fossee_manim/edit_profile.html', {'form': form}
+                      )
+
+
+@login_required
+def send_proposal(request):
+    user = request.user
+    if request.method == 'POST':
+        form = AnimationProposal(request.POST)
+        if form.is_valid():
+            form_data = form.save(commit=False)
+            form_data.contributor = user
+            form_data.status = "pending" 
+            if check_repo(form_data.github):
+                form_data.save()
+                form.save_m2m()
+            else:
+                messages.warning(request, 'Please enter valid github details')
+                return render(request, 'fossee_manim/send_proposal.html',
+                      {'form': form})
+        return redirect('/proposal_status/')
+    else:
+        form = AnimationProposal()
+        return render(request, 'fossee_manim/send_proposal.html',
+                      {'form': form})
+
+
+@login_required
+def proposal_status(request):
+    user = request.user
+    profile = Profile.objects.get(user_id=user)
+    anime = {}
+    anime_list = {}
+    if profile.position == 'contributor':
+        anime = Animation.objects.filter(contributor_id=user)
+    else:
+        anime_list = Animation.objects.filter(Q(status='pending') |
+                                              Q(status='changes'))
+    return render(request, 'fossee_manim/proposal_status.html',
+                  {'anime': anime, 'anime_list': anime_list})
+
+
+@login_required
+def edit_proposal(request, proposal_id=None):
+    user = request.user
+    comment_form = CommentForm()
+    proposal = Animation.objects.get(id=proposal_id)
+    proposal_form = AnimationProposal(instance=proposal)
+    try:
+        comments = Comment.objects.all().order_by('-created_date')
+    except:
+        comments = None
+    if request.method == 'POST':
+        text = request.POST.get('comment')
+        s1 = request.POST.get('release')
+        s2 = request.POST.get('rejected')
+
+        if s1 or s2 is not None:
+            if s1:
+                proposal.status = 'released'
+                proposal.reviewer = user
+                proposal.save()
+                send_email(request, call_on='released',
+                contributor=proposal.contributor)
+            else:
+                proposal.status = 'rejected'
+                proposal.reviewer = user
+                proposal.save()
+                send_email(request, call_on='rejected',
+                contributor=proposal.contributor)
+            return redirect('/proposal_status/')
+
+        if text is not None:
+            comment_form = CommentForm(request.POST)
+            form_data = comment_form.save(commit=False)
+            form_data.commentor = user
+            form_data.animation = proposal
+            if user.profile.position == 'reviewer':
+                proposal.status = 'changes'
+                send_email(request, call_on='changes',
+                contributor=proposal.contributor,
+                proposal=proposal)
+            form_data.save()
+            return redirect('/edit_proposal/{}'.format(proposal_id))
+        proposal_form = AnimationProposal(request.POST, instance=proposal)
+        if proposal_form.is_valid():
+            p_f = proposal_form.save(commit=False)
+            p_f.contributor = user
+            p_f.save()
+            proposal_form.save_m2m()
+    else:
+        if user.profile.position == 'contributor':
+            if user.id != proposal.contributor_id:
+                return redirect('/logout/')
+
+    if comments is not None:
+            #Show upto 12 Workshops per page
+            paginator = Paginator(comments, 9)
+            page = request.GET.get('page')
+            try:
+                comments = paginator.page(page)
+            except PageNotAnInteger:
+            #If page is not an integer, deliver first page.
+                comments = paginator.page(1)
+            except EmptyPage:
+                #If page is out of range(e.g 999999), deliver last page.
+                comments = paginator.page(paginator.num_pages)
+    return render(request, 'fossee_manim/edit_proposal.html',
+                      {'proposal_form': proposal_form,
+                      "comments": comments,
+                        "comment_form": comment_form})
+
+
+def search(request):
+    if request.method == 'POST':
+        word = request.POST.get('sbox')
+        
+    return render(request, 'fossee_manim/search_results.html')
+

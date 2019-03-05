@@ -1,16 +1,16 @@
 from django.contrib import admin
 import csv
 from django.http import HttpResponse
-from .models import (
-				Profile
-				)
+from .models import (Category, Profile, User, Animation, Comment,
+	 				 AnimationStats)
 # Register your models here.
 try:
-    from StringIO import StringIO as string_io
+	from StringIO import StringIO as string_io
 except ImportError:
-    from io import BytesIO as string_io
+	from io import BytesIO as string_io
 
-#Custom Classes 
+
+# Custom Classes
 class ProfileAdmin(admin.ModelAdmin):
 	list_display = ['title','user', 'institute','location','department',
 					'phone_number','position']
@@ -41,6 +41,10 @@ class ProfileAdmin(admin.ModelAdmin):
 	download_csv.short_description = "Download CSV file for selected stats."
 
 
+class CategoryAdmin(admin.ModelAdmin):
+	list_display = ['name', 'created', 'description']
+	list_filter = ['name']
 
 
+admin.site.register(Category, CategoryAdmin)	
 admin.site.register(Profile, ProfileAdmin)

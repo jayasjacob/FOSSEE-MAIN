@@ -1,2 +1,4 @@
 Django==1.11
+django-simple-history==2.7.0
+django-taggit==0.23.0
 pytz==2018.9

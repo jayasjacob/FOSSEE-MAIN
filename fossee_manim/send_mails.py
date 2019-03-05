@@ -1,5 +1,11 @@
-__author__ = "Akshen Doke"
-
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from os import listdir, path
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from time import sleep
 import hashlib
 import logging.config
 import re
@@ -23,14 +29,7 @@ from fossee_anime.settings import (
 					SENDER_EMAIL,
 					ADMIN_EMAIL
 					)
-from django.core.mail import EmailMultiAlternatives
-from django.conf import settings
-from os import listdir, path
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from time import sleep
+__author__ = "Akshen Doke"
 
 
 def validateEmail(email):
@@ -48,15 +47,13 @@ def generate_activation_key(username):
 	return hashlib.sha256((secret_key + username).encode('utf-8')).hexdigest()
 
 
+def send_email(request, call_on, contributor=None, key=None, proposal=None):
+	'''
+	'''
 
-def send_email(request, call_on,
-			user_name=None, other_email=None,
-			institute=None, key=None
-			):
-	'''
-	'''
 	try:
-		with open(path.join(settings.LOG_FOLDER, 'emailconfig.yaml'), 'r') as configfile:
+		with open(path.join(settings.LOG_FOLDER,
+					'emailconfig.yaml'), 'r') as configfile:
 			config_dict = yaml.load(configfile)
 		logging.config.dictConfig(config_dict)
 	except:
@@ -76,12 +73,60 @@ def send_email(request, call_on,
 		logging.info("New Registration from: %s", request.user.email)
 		try:
 			send_mail(
-				"User/Contributor Registration at FOSSEE, IIT Bombay", message, SENDER_EMAIL,
-				[request.user.email], fail_silently=True
-				)
+				"User/Contributor Registration at FOSSEE, IIT Bombay", message,
+				SENDER_EMAIL, [request.user.email], fail_silently=True)
 
 		except Exception:
 			send_smtp_email(request=request,
 				subject="User/Contributor Registration - FOSSEE, IIT Bombay",
 				message=message, other_email=request.user.email,
+				)
+	elif call_on == 'released':
+		message = dedent("""\
+					Hey {0},
+
+					Congratulations! your animations has been released on
+					FOSSEE's website.
+					Please start with your honouriam process
+
+					In case of queries, please revert to this
+					email.""".format(contributor.profile.user.username))
+
+		logging.info("Released Animation: %s", request.user.email)
+		send_mail(
+			"Congratulations! Animation Released!", message, SENDER_EMAIL,
+				[contributor.profile.user.email], fail_silently=True
+				)
+	elif call_on == 'rejected':
+		message = dedent("""\
+					Hey {0},
+
+					We are sorry to inform you that your proposal for
+					FOSSEE Animation is rejected.
+					You can work on the feedback given by the reviewer or
+					send us another proposal on a different topic!
+
+					In case of queries, please revert to this
+					email.""".format(contributor.profile.user.username))
+
+		logging.info("Animation Rejected: %s", request.user.email)
+		send_mail(
+			"FOSSEE Animation Status Update", message, SENDER_EMAIL,
+				[contributor.profile.user.email], fail_silently=True
+				)
+	elif call_on == 'changes':
+		message = dedent("""\
+					Hey {0},
+
+					Please check your proposal {1}
+					for comments by our reviewers
+					
+					In case of queries, please revert to this
+					email.""".format(contributor.profile.user.username,
+									proposal.title))
+
+		logging.info("Changes Required: %s", request.user.email)
+		send_mail(
+			"FOSSEE Animation Changes required", message, SENDER_EMAIL,
+				[contributor.profile.user.email], fail_silently=True
 				)

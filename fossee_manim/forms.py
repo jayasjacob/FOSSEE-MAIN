@@ -1,7 +1,8 @@
 from django import forms
 from django.utils import timezone
 from .models import (
-                    Profile, User
+                    Profile, User, Animation,
+                    Comment
                     )
 from string import punctuation, digits
 try:
@@ -12,7 +13,6 @@ except ImportError:
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .send_mails import generate_activation_key
-
 
 UNAME_CHARS = letters + "._" + digits
 PWD_CHARS = letters + punctuation + digits
@@ -63,8 +63,8 @@ states = (
     ("IN-AS",	"Assam"),
     ("IN-BR",	"Bihar"),
     ("IN-CT",	"Chhattisgarh"),
-    ("IN-GA",	"Goa"),	
-    ("IN-GJ",	"Gujarat"),	
+    ("IN-GA",	"Goa"),
+    ("IN-GJ",	"Gujarat"),
     ("IN-HR",	"Haryana"),
     ("IN-HP",	"Himachal Pradesh"),
     ("IN-JK",	"Jammu and Kashmir"),
@@ -87,7 +87,7 @@ states = (
     ("IN-UT",	"Uttarakhand"),
     ("IN-UP",	"Uttar Pradesh"),
     ("IN-WB",	"West Bengal"),
-    ("IN-AN",	"Andaman and Nicobar Islands"),	
+    ("IN-AN",	"Andaman and Nicobar Islands"),
     ("IN-CH",	"Chandigarh"),
     ("IN-DN",	"Dadra and Nagar Haveli"),
     ("IN-DD",	"Daman and Diu"),
@@ -107,19 +107,22 @@ class UserRegistrationForm(forms.Form):
                                period and underscore only.''')
     email = forms.EmailField()
     password = forms.CharField(max_length=32, widget=forms.PasswordInput())
-    confirm_password = forms.CharField\
-                       (max_length=32, widget=forms.PasswordInput())
+    confirm_password = forms.CharField(
+        max_length=32, widget=forms.PasswordInput())
     title = forms.ChoiceField(choices=title)
     first_name = forms.CharField(max_length=32)
     last_name = forms.CharField(max_length=32)
-    phone_number = forms.RegexField(regex=r'^.{10}$', 
-                                error_messages={'invalid':"Phone number must be entered \
-                                                  in the format: '9999999999'.\
-                                                 Up to 10 digits allowed."})
-    institute = forms.CharField(max_length=128, 
-                help_text='Please write full name of your Institute/Organization')
+    phone_number = forms.RegexField(regex=r'^.{10}$',
+                                    error_messages={'invalid': "Phone number\
+                                    must be entered \
+                                    in the format: '9999999999'.\
+                                    Up to 10 digits allowed."})
+    institute = forms.CharField(max_length=128,
+                                help_text='Please write full name of your\
+                                 Institute/Organization'
+                                )
     department = forms.ChoiceField(help_text='Department you work/study',
-                 choices=department_choices)
+                                   choices=department_choices)
     location = forms.CharField(max_length=255, help_text="Place/City")
     state = forms.ChoiceField(choices=states)
     how_did_you_hear_about_us = forms.ChoiceField(choices=source)
@@ -176,10 +179,11 @@ class UserRegistrationForm(forms.Form):
         new_profile.location = cleaned_data["location"]
         new_profile.title = cleaned_data["title"]
         new_profile.state = cleaned_data["state"]
-        new_profile.how_did_you_hear_about_us = cleaned_data["how_did_you_hear_about_us" ]
+        new_profile.how_did_you_hear_about_us = cleaned_data
+        ["how_did_you_hear_about_us"]
         new_profile.activation_key = generate_activation_key(new_user.username)
-        new_profile.key_expiry_time = timezone.now() + \
-                                    timezone.timedelta(days=1)
+        new_profile.key_expiry_time = timezone.now() + timezone.timedelta(
+            days=1)
         new_profile.save()
         key = Profile.objects.get(user=new_user).activation_key
         return u_name, pwd, key
@@ -189,10 +193,10 @@ class UserLoginForm(forms.Form):
     """Creates a form which will allow the user to log into the system."""
 
     username = forms.CharField(max_length=32,
-            widget=forms.TextInput())
+                               widget=forms.TextInput())
 
     password = forms.CharField(max_length=32,
-            widget=forms.PasswordInput())
+                               widget=forms.PasswordInput())
 
     def clean(self):
         super(UserLoginForm, self).clean()
@@ -225,3 +229,42 @@ class ProfileForm(forms.ModelForm):
         super(ProfileForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].initial = user.first_name
         self.fields['last_name'].initial = user.last_name
+
+
+class AnimationProposal(forms.ModelForm):
+    """Animation form """
+    required_css_class = 'required'
+    errorlist_css_class = 'errorlist'
+
+    def __init__(self, *args, **kwargs):
+        super(AnimationProposal, self).__init__(*args, **kwargs)
+        self.fields['github'].widget.attrs['rows'] = 1
+        self.fields['github'].widget.attrs['cols'] = 50
+        self.fields['github'].widget.attrs['placeholder'] = 'Put your repo\
+ link here'
+        self.fields['description'].widget.attrs['placeholder'] = 'NOTE:-Do\
+ add info about prerequisites if any also possible textbooks or \
+ other related information'
+
+    class Meta:
+        model = Animation
+        fields = ['category', 'title', 'description', 'github', 'tags']
+
+
+class CommentForm(forms.ModelForm):
+    """
+    Instructors will post comments on Coordinators profile
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['comment'].label = ""
+        self.fields['comment'].widget.attrs['rows'] = 5
+        self.fields['comment'].widget.attrs['cols'] = 95
+
+    class Meta:
+        model = Comment
+        exclude = ['animation', 'created_date', 'commentor']
+        widgets = {
+            'comments': forms.CharField(),
+        }

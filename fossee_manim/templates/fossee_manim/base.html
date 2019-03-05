@@ -9,7 +9,6 @@
 	</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -20,7 +19,8 @@
 </head>
 
 	<!-- For js/ajax and other related scripts -->
-	{% block extra %}
+  {% block extra %}
+  
 	{% endblock %}
 
 <body style="overflow: scroll;">
@@ -33,12 +33,12 @@
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-           
-            <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+          <ul class="navbar-nav mr-auto">          
+          <form class="form-inline" method="POST" action="/search/">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" id="sbox" name="sbox" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Categories
@@ -59,16 +59,16 @@
                 </a>
                 {% if request.user.profile.position == 'contributor' %}
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Send Proposal</a>
-                  <a class="dropdown-item" href="#">Proposal Status</a>
-                  <a class="dropdown-item" href="{{URL_ROOT}}/view_profile">View Profile</a>
-                  <a class="dropdown-item" href="{{URL_ROOT}}/logout">Logout</a>
+                  <a class="dropdown-item" href="{% url 'send_proposal' %}">Send Proposal</a>
+                  <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
+                  <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
               </div>
               {% else %}
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Proposal Status</a>
-                  <a class="dropdown-item" href="{{URL_ROOT}}/view_profile">View Profile</a>
-                  <a class="dropdown-item" href="{{URL_ROOT}}/logout">Logout</a>
+                  <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
+                  <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
               </div>
               {% endif %}
             </li>
@@ -76,10 +76,10 @@
           {% else %}          
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                 <a class="nav-link" href="{{ URL_ROOT}}/register">Register</a>
+                 <a class="nav-link" href="{% url 'register' %}">Register</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ URL_ROOT}}/login">Login</a>
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
             </ul>
           {% endif %}

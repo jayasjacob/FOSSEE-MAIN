@@ -18,7 +18,8 @@ from local_settings import (
                     EMAIL_HOST_USER,
                     EMAIL_HOST_PASSWORD,
                     EMAIL_USE_TLS,
-                    SENDER_EMAIL
+                    SENDER_EMAIL,
+                    SECRET_KEY_SETTINGS
                     )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -29,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'axx=vuttrki_26n0l!cx569(h_ze)981u+9_@mw35^^b!l5g)y'
+SECRET_KEY = SECRET_KEY_SETTINGS
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'fossee_manim',
+    'taggit',
+    'simple_history'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -58,6 +61,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'fossee_anime.urls'
