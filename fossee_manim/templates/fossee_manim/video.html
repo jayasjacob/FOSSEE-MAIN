@@ -1,0 +1,24 @@
+{% extends 'fossee_manim/base.html' %}
+
+	{% block title %}
+		FOSSEE Animation
+	{% endblock %}
+
+{% block content %}
+    <br>
+	<div class="container" align="center">
+        <br>
+        <div class="row" >
+            <div class="col-md-8">
+                    <video width="100%" height="100%" controls>
+                            <source src="{{video.0.video_path.url}}" type="video/mp4">                
+                    </video>
+                    <p style="float: left;"> {{ video.0.views }} views</p>
+            </div>
+            <div class="col-md-4">
+            </div>
+         
+       </div>
+		<br>
+	</div>
+{% endblock %}

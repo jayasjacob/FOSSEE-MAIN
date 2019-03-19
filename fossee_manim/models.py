@@ -1,9 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
+from django.conf import settings
+from django.utils import timezone
+from django.core.files import File
 from taggit.managers import TaggableManager
 from simple_history.models import HistoricalRecords
-from django.utils import timezone
+from os import path, sep
+import tempfile
+import subprocess
 
 
 position_choices = (
@@ -96,6 +101,12 @@ def has_profile(user):
     return True if hasattr(user, 'profile') else False
 
 
+def attachments(instance, filename):
+    return path.join(instance.animation.category.name,
+                     instance.animation.title,
+                     str(instance.animation.id), filename)
+
+
 class Profile(models.Model):
     """Profile for users(instructors and coordinators)"""
 
@@ -156,7 +167,6 @@ class Animation(models.Model):
     github = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now)
     tags = TaggableManager()
     history = HistoricalRecords()
 
@@ -182,3 +192,22 @@ class AnimationStats(models.Model):
     views = models.PositiveIntegerField(default=0)
     like = models.PositiveIntegerField(default=0)
     dislike = models.PositiveIntegerField(default=0)
+    thumbnail = models.ImageField(null=True, blank=True, upload_to=attachments)
+    video_path = models.FileField(null=True, blank=True, upload_to=attachments)
+
+    def _create_thumbnail(self):
+        # anime = AnimationStats.objects.get(
+        #                 animation=proposal)
+        video_path = self.video_path.path
+        img_output = path.join(
+            tempfile.mkdtemp(),  "{0}.jpg".format(self.animation.title)
+            )
+        file_name = "{0}.jpg".format(self.animation.title)
+        subprocess.call(['ffmpeg', '-i', video_path, '-ss', '00:00:09.000',
+                        '-vframes', '1', img_output])
+        if path.exists(img_output):
+            que_file = open(img_output, 'rb')
+            # Converting to Python file object with
+            # some Django-specific additions
+            django_file = File(que_file)
+            self.thumbnail.save(file_name, django_file, save=True)

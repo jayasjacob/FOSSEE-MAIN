@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from os import listdir, path, sep, makedirs, remove
 from .forms import (
             UserRegistrationForm, UserLoginForm,
-            ProfileForm, AnimationProposal, 
-            CommentForm
+            ProfileForm, AnimationProposal,
+            CommentForm, UploadAnimationForm
             )
 from .models import (
             Profile, User, AnimationStats,
-            has_profile, Animation, Comment
+            has_profile, Animation, Comment,
+            Category
             )
 from datetime import datetime, date
 from django.contrib.auth import login, logout, authenticate
@@ -15,24 +16,42 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from .send_mails import send_email
 from django.http import HttpResponse, HttpResponseRedirect
-from textwrap import dedent
 from django.conf import settings
-from os import listdir, path, sep
-from zipfile import ZipFile
+from django.core.files.uploadhandler import FileUploadHandler
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import F, Subquery, OuterRef
+from zipfile import ZipFile
+from textwrap import dedent
+from requests import get
+from .send_mails import send_email
 import datetime as dt
-import os
+import shutil
 try:
     from StringIO import StringIO as string_io
 except ImportError:
     from io import BytesIO as string_io
 
 
+def makepath(proposal_data, reject=None):
+    if not path.exists(path.join(settings.MEDIA_ROOT,
+                       proposal_data.category.name)):
+        makedirs(path.join(settings.MEDIA_ROOT,
+                 proposal_data.category.name))
+
+    if reject:
+        shutil.rmtree(path.join(
+                     settings.MEDIA_ROOT, proposal_data.category.name,
+                     proposal_data.title.replace(" ", "_")
+                     + str(proposal_data.id)))
+    else:
+        makedirs(path.join(settings.MEDIA_ROOT, proposal_data.category.name,
+                 proposal_data.title.replace(" ", "_")
+                 + str(proposal_data.id)))
+
+
 def check_repo(link):
-    return True if 'github.com' in link else False
+    return (get(link).status_code == 200)
 
 
 def is_email_checked(user):
@@ -43,7 +62,7 @@ def is_email_checked(user):
 
 
 def is_superuser(user):
-    return True if user.is_superuser else False
+    return user.is_superuser
 
 
 def index(request):
@@ -52,8 +71,8 @@ def index(request):
     user = request.user
     form = UserLoginForm()
     if user.is_authenticated() and is_email_checked(user):
-        if user.groups.filter(name='reviewer').count() > 0:
-            return redirect('/view_profile/')
+        if user.groups.filter(name='reviewer').exists:
+            return redirect('/proposal_status/')
         return redirect('/view_profile/')
     elif request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -62,8 +81,8 @@ def index(request):
             login(request, user)
             if is_superuser(user):
                 return redirect("/admin")
-            if user.groups.filter(name='reviewer').count() > 0:
-                return redirect('/view_profile/')
+            if user.groups.filter(name='reviewer').exists():
+                return redirect('/proposal_status/')
             return redirect('/view_profile/')
 
     return render(request, "fossee_manim/index.html", {"form": form})
@@ -71,7 +90,7 @@ def index(request):
 
 def is_reviewer(user):
     '''Check if the user is having reviewer rights'''
-    return True if user.groups.filter(name='reviewer').count() > 0 else False
+    return user.groups.filter(name='reviewer').exists()
 
 
 def user_login(request):
@@ -248,14 +267,15 @@ def send_proposal(request):
         if form.is_valid():
             form_data = form.save(commit=False)
             form_data.contributor = user
-            form_data.status = "pending" 
+            form_data.status = "pending"
             if check_repo(form_data.github):
                 form_data.save()
                 form.save_m2m()
+                # makepath(form_data)
             else:
                 messages.warning(request, 'Please enter valid github details')
                 return render(request, 'fossee_manim/send_proposal.html',
-                      {'form': form})
+                              {'form': form})
         return redirect('/proposal_status/')
     else:
         form = AnimationProposal()
@@ -272,8 +292,7 @@ def proposal_status(request):
     if profile.position == 'contributor':
         anime = Animation.objects.filter(contributor_id=user)
     else:
-        anime_list = Animation.objects.filter(Q(status='pending') |
-                                              Q(status='changes'))
+        anime_list = Animation.objects.order_by('-created')
     return render(request, 'fossee_manim/proposal_status.html',
                   {'anime': anime, 'anime_list': anime_list})
 
@@ -284,28 +303,30 @@ def edit_proposal(request, proposal_id=None):
     comment_form = CommentForm()
     proposal = Animation.objects.get(id=proposal_id)
     proposal_form = AnimationProposal(instance=proposal)
+    upload_form = UploadAnimationForm()
     try:
-        comments = Comment.objects.all().order_by('-created_date')
+        comments = Comment.objects.filter(animation_id=proposal_id).order_by(
+                                    '-created_date'
+                                    )
     except:
         comments = None
     if request.method == 'POST':
         text = request.POST.get('comment')
-        s1 = request.POST.get('release')
-        s2 = request.POST.get('rejected')
+        status1 = request.POST.get('release')
+        status2 = request.POST.get('rejected')
 
-        if s1 or s2 is not None:
-            if s1:
+        if status1 or status2 is not None:
+            if status1:
                 proposal.status = 'released'
-                proposal.reviewer = user
-                proposal.save()
                 send_email(request, call_on='released',
-                contributor=proposal.contributor)
+                           contributor=proposal.contributor)
             else:
                 proposal.status = 'rejected'
-                proposal.reviewer = user
-                proposal.save()
+                makepath(proposal, reject=1)
                 send_email(request, call_on='rejected',
-                contributor=proposal.contributor)
+                           contributor=proposal.contributor)
+            proposal.reviewer = user
+            proposal.save()
             return redirect('/proposal_status/')
 
         if text is not None:
@@ -315,9 +336,10 @@ def edit_proposal(request, proposal_id=None):
             form_data.animation = proposal
             if user.profile.position == 'reviewer':
                 proposal.status = 'changes'
+                proposal.save()
                 send_email(request, call_on='changes',
-                contributor=proposal.contributor,
-                proposal=proposal)
+                           contributor=proposal.contributor,
+                           proposal=proposal)
             form_data.save()
             return redirect('/edit_proposal/{}'.format(proposal_id))
         proposal_form = AnimationProposal(request.POST, instance=proposal)
@@ -345,13 +367,59 @@ def edit_proposal(request, proposal_id=None):
                 comments = paginator.page(paginator.num_pages)
     return render(request, 'fossee_manim/edit_proposal.html',
                       {'proposal_form': proposal_form,
-                      "comments": comments,
-                        "comment_form": comment_form})
+                       "comments": comments,
+                         "comment_form": comment_form,
+                         "upload_form": upload_form})
 
 
 def search(request):
     if request.method == 'POST':
         word = request.POST.get('sbox')
-        
     return render(request, 'fossee_manim/search_results.html')
 
+
+@login_required
+def upload_animation(request, proposal_id=None):
+    if request.method == 'POST':
+        proposal = Animation.objects.get(id=proposal_id)
+        anim_stats = UploadAnimationForm(request.POST or None,
+                                         request.FILES or None)
+
+        # return redirect('/edit_proposal/{}'.format(proposal_id))
+        if anim_stats.is_valid():
+            anim = AnimationStats.objects.filter(
+                    animation=proposal)
+            if anim.exists():
+                anobj = anim.first()
+                try:
+                    remove(anobj.thumbnail.path)
+                except:
+                    pass
+                remove(anobj.video_path.path)
+                anobj.delete()
+                anobj = AnimationStats.objects.create(
+                    animation=proposal, video_path=request.FILES['video_path'])
+            else:
+                anobj = AnimationStats.objects.create(
+                    animation=proposal, video_path=request.FILES['video_path'])
+            anobj._create_thumbnail()
+        return render(request, 'fossee_manim/upload_success.html')
+    else:
+        return redirect('/view_profile/')
+
+
+def video(request, id=None):
+    video = AnimationStats.objects.filter(id=id)
+    # if views crosses limit comment the line below
+    video.update(views=F('views')+1)
+    video.update(like=F('like')+1)
+    suggestion_list = AnimationStats.objects.filter()
+    return render(request, 'fossee_manim/video.html', {'video': video})
+
+
+def search_category(request, cat=None):
+    cat_id = Category.objects.get(name=cat)
+    anim_list = AnimationStats.objects.all()
+    cat_video_list = [x for x in anim_list if (x.animation.category == cat_id)]
+    return render(request, 'fossee_manim/categorical_list.html',
+                  {'categorial_list': cat_video_list})

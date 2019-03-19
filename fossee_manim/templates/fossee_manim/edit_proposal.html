@@ -19,7 +19,19 @@
   
     <br>
       <button class="btn btn-primary pull-right" type="submit">Save</button>
+      <br>
   </form>
+  <br>
+
+  {% if  proposal_form.instance.status == 'changes' %}
+  <form method="POST" action="{% url 'upload_animation' proposal_form.instance.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label class="btn btn-info">
+          {{ upload_form }}
+          <button class="btn btn-success" type="submit">Upload</button>
+      </label>
+  </form>
+  {% endif %}
 
   <br><br>
   {% if request.user.profile.position == 'reviewer' %}
