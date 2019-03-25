@@ -179,6 +179,7 @@ class Comment(models.Model):
     commentor = models.ForeignKey(User, on_delete=models.CASCADE)
     animation = models.ForeignKey(Animation, on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
+    animation_status = models.CharField(max_length=255)
 
     def __str__(self):
         return u"{1} | {0}".format(

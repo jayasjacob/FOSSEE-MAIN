@@ -5,20 +5,62 @@
 	{% endblock %}
 
 {% block content %}
-    <br>
-	<div class="container" align="center">
-        <br>
+	<div class="container" >
         <div class="row" >
-            <div class="col-md-8">
-                    <video width="100%" height="100%" controls>
+            <div class="col-md-12" >
+                    <br>
+                    <video width="100%" height="90%" controls >
                             <source src="{{video.0.video_path.url}}" type="video/mp4">                
                     </video>
-                    <p style="float: left;"> {{ video.0.views }} views</p>
+                    <div class="row">
+                        <div class="col-md-8">
+                                <p style="color:#26A669; font-size: 200%; float: left;"> {{ video.0.animation.title }} </p>            
+                        </div>
+                        <div class="col-md-4">
+                                <a target="_blank" href="{{ video.animation.github }}"><p style="font-size: 70%; float: right;"> {{ video.0.animation.github }} </p></a>
+                        </div>
+                    </div>
             </div>
-            <div class="col-md-4">
-            </div>
-         
+            
        </div>
-		<br>
+       <div class="row">
+                <div class="col-md-10">
+                                <p style="color:#26A669; font-size: 100%; float: left;"> 
+                                        {{ video.0.animation.description }} 
+                                </p>
+                                <br>
+                                </div>
+       </div>
+        <div>
+                <hr>
+                <br>  <br>
+                        <h2>Comments</h2>
+                        <div>
+                            <form method="POST">
+                                <br>
+                                {% csrf_token %}
+                                {{ comment_form.as_p }}
+                                <button type="submit" class="btn btn-default">Post</button>
+                            </form>
+                            
+                          </div>
+                          <hr style="background-color: #fff;
+                              border-top: 5px double #8c8b8b;">
+                          <table>
+                            {% for comment in comments %}
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <h5>{{ comment.commentor.profile.user.get_full_name }} | {{ comment.created_date | date  }}</h5> 
+                                  <h6 style="background-color: #ecf0f1; padding:10px;">{{ comment.comment }}</h6>
+                                  <hr style="border-top: 0.5px solid #8c8b8b;">
+                                </td>
+                              </tr>
+                            </tbody>
+                            {% endfor %}
+                          </table>
+                          
+                      <br>
+        </div>
 	</div>
 {% endblock %}

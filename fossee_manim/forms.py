@@ -263,7 +263,8 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ['animation', 'created_date', 'commentor']
+        exclude = ['animation', 'created_date', 'commentor',
+                   'animation_status']
         widgets = {
             'comments': forms.CharField(),
         }

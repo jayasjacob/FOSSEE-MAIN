@@ -43,10 +43,11 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Categories
               </a>
+              
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Math</a>
-                <a class="dropdown-item" href="#">Aerospace</a>
-                <a class="dropdown-item" href="#">Biology</a>
+                  {% for c in categories %}
+                <a class="dropdown-item" href="{% url 'search_category' c.name %}">{{c.name}}</a>        
+                {% endfor %}
               </div>
             </li>
           </ul>
@@ -93,10 +94,5 @@
 	{% endblock %}
 	
 </body>
-<br><br>
-	<footer class="footer">
-		<div class="container">
-			 <p align="center">Developed by FOSSEE group, IIT Bombay</p>
-		 </div>
-    </footer>
+<br>
 </html>

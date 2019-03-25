@@ -6,23 +6,30 @@
 
 {% block content %}
     <br>
-	<div class="container" align="center">
+	<div class="container-fluid" >
         <br>
-        <div class="row">
+        <div class="row" align="center">
             <div class="col-md-12">
                 <h1 style="float: left;">{{ categorial_list.0.animation.category }}</h1>
             </div>
         </div>
         <hr>
         <br>
-        <div style="width:150px; float: left;">
-            {% for video in categorial_list %}
-            <div class="row">
-                    <a href="{% url 'video' video.id  %}" ><img height="100%" width="200%" src="{{ video.thumbnail.url }}"></a>
+            
+    {% for video in categorial_list %}    
+        <div class="row">
+            <div class="col-md-4" >
+                <a href="{% url 'video' video.id  %}" ><img height="90%" width="100%" src="{{ video.thumbnail.url }}"></a>
             </div>
-            <hr>
-            {% endfor %}
-        </div>   
-		<br>
-	</div>
+            <div class="col-md-4">
+                <p style="color:#26A669; font-size: 300%;"> {{ video.animation.title }} </p>
+                <p style="color:#26A669; font-size: 100%;"> {{ video.animation.description | truncatewords:5}} </p>
+                <a target="_blank" href="{{ video.animation.github }}"><p style="font-size: 70%;"> {{ video.animation.github }} </p></a>
+            </div>
+        </div>
+    <hr>
+    {% endfor %}
+        <br>
+    </div>
+    <br>
 {% endblock %}

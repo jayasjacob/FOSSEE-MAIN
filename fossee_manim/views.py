@@ -20,7 +20,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.files.uploadhandler import FileUploadHandler
 from django.contrib import messages
-from django.db.models import F, Subquery, OuterRef
+from django.db.models import F, Subquery, OuterRef, Q
 from zipfile import ZipFile
 from textwrap import dedent
 from requests import get
@@ -197,10 +197,12 @@ def user_register(request):
 def view_profile(request):
     """ view instructor and coordinator profile """
     user = request.user
+    categories = Category.objects.all()
     if is_superuser(user):
         return redirect('/admin')
     if is_email_checked(user) and user.is_authenticated():
-        return render(request, "fossee_manim/view_profile.html")
+        return render(request, "fossee_manim/view_profile.html",
+                      {'categories': categories})
     else:
         if user.is_authenticated():
             return render(request, 'fossee_manim/activation.html')
@@ -217,6 +219,7 @@ def edit_profile(request):
     """ edit profile details facility for reviewer and contributor """
 
     user = request.user
+    categories = Category.objects.all()
     if is_superuser(user):
         return redirect('/admin')
     if is_email_checked(user):
@@ -248,20 +251,23 @@ def edit_profile(request):
             form_data.save()
 
             return render(
-                        request, 'fossee_manim/profile_updated.html'
+                        request, 'fossee_manim/profile_updated.html',
+                        {'categories': categories}
                         )
         else:
             context['form'] = form
             return render(request, 'fossee_manim/edit_profile.html', context)
     else:
         form = ProfileForm(user=user, instance=profile)
-        return render(request, 'fossee_manim/edit_profile.html', {'form': form}
+        return render(request, 'fossee_manim/edit_profile.html', {'form': form,
+                      'categories': categories}
                       )
 
 
 @login_required
 def send_proposal(request):
     user = request.user
+    categories = Category.objects.all()
     if request.method == 'POST':
         form = AnimationProposal(request.POST)
         if form.is_valid():
@@ -275,12 +281,12 @@ def send_proposal(request):
             else:
                 messages.warning(request, 'Please enter valid github details')
                 return render(request, 'fossee_manim/send_proposal.html',
-                              {'form': form})
+                              {'form': form, 'categories': categories})
         return redirect('/proposal_status/')
     else:
         form = AnimationProposal()
         return render(request, 'fossee_manim/send_proposal.html',
-                      {'form': form})
+                      {'form': form, 'categories': categories})
 
 
 @login_required
@@ -289,12 +295,14 @@ def proposal_status(request):
     profile = Profile.objects.get(user_id=user)
     anime = {}
     anime_list = {}
+    categories = Category.objects.all()
     if profile.position == 'contributor':
         anime = Animation.objects.filter(contributor_id=user)
     else:
         anime_list = Animation.objects.order_by('-created')
     return render(request, 'fossee_manim/proposal_status.html',
-                  {'anime': anime, 'anime_list': anime_list})
+                  {'anime': anime, 'anime_list': anime_list,
+                   'categories': categories})
 
 
 @login_required
@@ -304,6 +312,8 @@ def edit_proposal(request, proposal_id=None):
     proposal = Animation.objects.get(id=proposal_id)
     proposal_form = AnimationProposal(instance=proposal)
     upload_form = UploadAnimationForm()
+    categories = Category.objects.all()
+    video = AnimationStats.objects.filter(animation=proposal_id)
     try:
         comments = Comment.objects.filter(animation_id=proposal_id).order_by(
                                     '-created_date'
@@ -334,6 +344,7 @@ def edit_proposal(request, proposal_id=None):
             form_data = comment_form.save(commit=False)
             form_data.commentor = user
             form_data.animation = proposal
+            form_data.animation__status = proposal.status
             if user.profile.position == 'reviewer':
                 proposal.status = 'changes'
                 proposal.save()
@@ -368,14 +379,21 @@ def edit_proposal(request, proposal_id=None):
     return render(request, 'fossee_manim/edit_proposal.html',
                       {'proposal_form': proposal_form,
                        "comments": comments,
-                         "comment_form": comment_form,
-                         "upload_form": upload_form})
+                       "comment_form": comment_form,
+                        "upload_form": upload_form,
+                        'video': video,
+                        'categories': categories})
 
 
 def search(request):
+    categories = Category.objects.all()
     if request.method == 'POST':
         word = request.POST.get('sbox')
-    return render(request, 'fossee_manim/search_results.html')
+        anime_list = Animation.objects.filter(
+            Q(title__contains=word) | Q(description__contains=word))
+    
+    return render(request, 'fossee_manim/search_results.html',
+                  {'s_result': anime_list, 'categories': categories})
 
 
 @login_required
@@ -408,18 +426,32 @@ def upload_animation(request, proposal_id=None):
         return redirect('/view_profile/')
 
 
-def video(request, id=None):
-    video = AnimationStats.objects.filter(id=id)
+def video(request, aid=None):
+    video = AnimationStats.objects.filter(id=aid)
+    comment_form = CommentForm()
     # if views crosses limit comment the line below
     video.update(views=F('views')+1)
     video.update(like=F('like')+1)
-    suggestion_list = AnimationStats.objects.filter()
-    return render(request, 'fossee_manim/video.html', {'video': video})
+    anim_list = AnimationStats.objects.filter(animation__status="released")
+    suggestion_list = [x for x in anim_list if (
+        x.animation.category == video[0].animation.category)]
+    reviewer_id = video[0].animation.reviewer.id
+    comment_list = Comment.objects.filter(animation=video[0].animation)
+    comments = [x for x in comment_list if x.animation.status !=
+                ('pending' or 'changes')]
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/video.html',
+                  {'video': video, 'categories': categories,
+                   'suggestion_list': suggestion_list,
+                   "comment_form": comment_form,
+                   'comments': comments})
 
 
 def search_category(request, cat=None):
     cat_id = Category.objects.get(name=cat)
-    anim_list = AnimationStats.objects.all()
+    anim_list = AnimationStats.objects.filter(animation__status="released")
     cat_video_list = [x for x in anim_list if (x.animation.category == cat_id)]
+    categories = Category.objects.all()
     return render(request, 'fossee_manim/categorical_list.html',
-                  {'categorial_list': cat_video_list})
+                  {'categorial_list': cat_video_list, 'categories': categories
+                   })
