@@ -18,8 +18,11 @@
             
     {% for video in categorial_list %}    
         <div class="row">
-            <div class="col-md-4" >
-                <a href="{% url 'video' video.id  %}" ><img height="90%" width="100%" src="{{ video.thumbnail.url }}"></a>
+            <div class="col-md-4">
+                <a href="{% url 'video' video.id  %}" >
+                    <span class="fa fa-play fa-4x" id="play-btn"></span>
+                    <img height="90%" width="100%" src="{{ video.thumbnail.url }}">
+                </a>
             </div>
             <div class="col-md-4">
                 <p style="color:#26A669; font-size: 300%;"> {{ video.animation.title }} </p>

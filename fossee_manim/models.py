@@ -197,8 +197,6 @@ class AnimationStats(models.Model):
     video_path = models.FileField(null=True, blank=True, upload_to=attachments)
 
     def _create_thumbnail(self):
-        # anime = AnimationStats.objects.get(
-        #                 animation=proposal)
         video_path = self.video_path.path
         img_output = path.join(
             tempfile.mkdtemp(),  "{0}.jpg".format(self.animation.title)

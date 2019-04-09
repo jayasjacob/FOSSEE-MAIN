@@ -23,7 +23,7 @@
   </form>
   <br>
 
-  {% if  proposal_form.instance.status == 'changes' and request.user.profile.position == 'coordinator' %}
+  {% if  proposal_form.instance.status == 'changes' and request.user.profile.position == 'contributor' %}
   <form method="POST" action="{% url 'upload_animation' proposal_form.instance.id %}" enctype="multipart/form-data">
       {% csrf_token %}
       <label class="btn btn-info">

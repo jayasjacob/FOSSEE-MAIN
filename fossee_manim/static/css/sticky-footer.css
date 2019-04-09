@@ -70,3 +70,21 @@
   margin-left: .1rem;
   margin-right: .1rem;
 }
+
+
+/* video-thumbnail over image */
+#play-btn
+{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
