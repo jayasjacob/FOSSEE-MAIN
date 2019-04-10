@@ -23,6 +23,7 @@ from django.db.models import F, Subquery, OuterRef, Q
 from zipfile import ZipFile
 from textwrap import dedent
 from requests import get
+from random import sample
 from .send_mails import send_email
 import datetime as dt
 import shutil
@@ -112,7 +113,7 @@ def user_login(request):
             login(request, user)
             if user.groups.filter(name='reviewer').count() > 0:
                 return redirect('/view_profile/')
-            return redirect('/view_profile/')
+            return redirect('/how_to/')
         else:
             return render(request, 'fossee_manim/login.html', {"form": form})
     else:
@@ -460,12 +461,14 @@ def video(request, aid=None):
     else:
         return redirect('/view_profile/')
             
-
-
+    if len(suggestion_list)>3:
+        suggestion_list = sample(suggestion_list, 3)
+    else:
+        suggestion_list = [x for x in anim_list if x.id != int(aid)][:3]
     categories = Category.objects.all()
     return render(request, 'fossee_manim/video.html',
                   {'video': video, 'categories': categories,
-                   'suggestion_list': suggestion_list,
+                   'reco': suggestion_list,
                    "comment_form": comment_form,
                    'comments': comments})
 
@@ -478,3 +481,7 @@ def search_category(request, cat=None):
     return render(request, 'fossee_manim/categorical_list.html',
                   {'categorial_list': cat_video_list, 'categories': categories
                    })
+
+
+def how_to(request):
+    return render(request, 'fossee_manim/how_to.html')

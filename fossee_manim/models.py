@@ -210,3 +210,17 @@ class AnimationStats(models.Model):
             # some Django-specific additions
             django_file = File(que_file)
             self.thumbnail.save(file_name, django_file, save=True)
+    
+    def _create_ogv(self):
+        video_input = self.video_path.path
+        vid_output = path.join(
+            tempfile.mkdtemp(),  "{0}.ogv".format(self.animation.title)
+            )
+        file_name = "{0}.ogv".format(self.animation.title)
+        subprocess.call(['ffmpeg', '-i', video_input, '-r', '24', vid_output])
+        if path.exists(vid_output):
+            que_file = open(vid_output, 'rb')
+            # Converting to Python file object with
+            # some Django-specific additions
+            django_file = File(que_file)
+            self.video_path.save(file_name, django_file, save=True)
