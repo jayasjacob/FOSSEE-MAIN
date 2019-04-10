@@ -258,8 +258,6 @@ class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['comment'].label = ""
-        self.fields['comment'].widget.attrs['rows'] = 5
-        self.fields['comment'].widget.attrs['cols'] = 95
 
     class Meta:
         model = Comment

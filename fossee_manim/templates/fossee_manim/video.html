@@ -34,8 +34,28 @@
                                 <br>
                                 </div>
        </div>
+       <hr>
+       <div class="row">
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.0.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.0.thumbnail.url }}">
+                        </a>
+                </div>
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.1.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.1.thumbnail.url }}">
+                        </a>
+                </div>
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.2.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.2.thumbnail.url }}">
+                        </a>
+                </div>
+       </div>
         <div>
-                <hr>
                 <br>  <br>
                         <h2>Comments</h2>
                         <div>
