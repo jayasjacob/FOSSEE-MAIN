@@ -1,6 +1,7 @@
 from django.test import TestCase
 from fossee_manim.models import (
-                    Profile, User
+                    Profile, User, Category, Animation,
+					Comment, AnimationStats
                     )
 from datetime import datetime
 
@@ -22,6 +23,8 @@ def setUpModule():
 	testUser2 = User.objects.create(username='testuser2',
 				email='test.user@gmail.com', password='pass@123')
 
+	category1 = Category.objects.create(name='Math', description='Mathematics')
+
 	reviewer_profile = Profile.objects.create(user=testUser2, position='reviewer',
 			department='computer engineering', institute='ace', phone_number='1122334456', 
 			title='Doctor', how_did_you_hear_about_us='Google', location='powai', state='IN-MH',
@@ -35,8 +38,10 @@ def setUpModule():
 
 
 def tearDownModule():
-    User.objects.all().delete()
-    Profile.objects.all().delete()
+	User.objects.all().delete()
+	Profile.objects.all().delete()
+	Category.objects.all().delete()
+
 
 class ProfileModelTest(TestCase):
 	'''	
@@ -68,3 +73,51 @@ class ProfileModelTest(TestCase):
 		self.assertEqual(self.contributor_profile1.location,'powai')
 		self.assertEqual(self.reviewer_profile1.location,'powai')
 		self.assertEqual(self.contributor_profile1.how_did_you_hear_about_us,'Google')
+
+
+class CategoryModelTest(TestCase):
+	def setUp(self):
+		self.category1 = Category.objects.create(name='Biology', description='study of nature')
+		self.category2 = Category.objects.create(name='Aerospace',
+						description='Aerospace is the human effort in science, engineering, and business to fly in the atmosphere of Earth \
+						(aeronautics) and surrounding space (astronautics). \
+						Aerospace organizations research, design, manufacture, operate, or maintain aircraft or spacecraft. Aerospace activity \
+						is very diverse, with a multitude of commercial, industrial and military applications.'
+						)
+	
+	def test_category_model(self):
+		self.assertEqual(self.category1.description, 'study of nature')
+		self.assertEqual(self.category2.name, 'Aerospace')
+	
+
+class AnimationModelTest(TestCase):
+	def setUp(self):
+		self.demoUser2 = User.objects.create(username='demouser21', 
+						email='test.user@gmail.com', password='pass@123')
+		self.testUser2 = User.objects.create(username='testuser21',
+				email='test.user@gmail.com', password='pass@123')
+		self.category1 = Category.objects.create(name='Biology', description='study of nature')
+		self.animation1 = Animation.objects.create(title='Testing Anime', contributor=self.demoUser2,
+		reviewer=self.testUser2, description='This is test animation upload', github='https://github.come/FOSSEE',
+		category=self.category1)
+
+	def test_animation_model(self):
+		self.assertEqual(self.animation1.title, 'Testing Anime')
+		self.assertEqual(self.category1.name, 'Biology')
+
+
+class CommentModelTest(TestCase):
+	def setUp(self):
+		self.demoUser2 = User.objects.create(username='demouser21', 
+						email='test.user@gmail.com', password='pass@123')
+		self.testUser2 = User.objects.create(username='testuser21',
+				email='test.user@gmail.com', password='pass@123')
+		self.category1 = Category.objects.create(name='Biology', description='study of nature')
+		self.animation1 = Animation.objects.create(title='Testing Anime', contributor=self.demoUser2,
+		reviewer=self.testUser2, description='This is test animation upload', github='https://github.come/FOSSEE',
+		category=self.category1)
+		self.comment1 = Comment.objects.create(comment='This is a comment', commentor=self.testUser2,
+		animation=self.animation1, animation_status='changes')
+
+	def test_comment_model(self):
+		self.assertEqual(self.comment1.comment, 'This is a comment')
