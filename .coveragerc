@@ -1,0 +1,18 @@
+[run]
+branch = True
+source = .
+omit =
+     *tests*
+     *migrations*
+     *init*
+     local_settings.py
+     fossee_manim/apps.py
+     fossee_anime/settings.py
+     fossee_anime/wsgi.py
+
+
+[report]
+exclude_lines =
+    except ImportError:
+    raise NotImplementedError
+    if __name__ == .__main__.:
