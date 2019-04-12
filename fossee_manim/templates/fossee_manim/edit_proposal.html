@@ -19,7 +19,23 @@
   
     <br>
       <button class="btn btn-primary pull-right" type="submit">Save</button>
+      <br>
   </form>
+  <br>
+
+  {% if  proposal_form.instance.status == 'changes' and request.user.profile.position == 'contributor' %}
+  <form method="POST" action="{% url 'upload_animation' proposal_form.instance.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label class="btn btn-info">
+          {{ upload_form }}
+          <button class="btn btn-success" type="submit">Upload</button>
+      </label>
+  </form>
+  {% else %}
+    <video width="100%" height="100%" controls>
+      <source src="{{video.0.video_path.url}}" type="video/mp4">                
+    </video>
+  {% endif %}
 
   <br><br>
   {% if request.user.profile.position == 'reviewer' %}

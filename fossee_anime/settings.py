@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import sys
-from local_settings import (
+from .local_settings import (
                     EMAIL_HOST,
                     EMAIL_PORT,
                     EMAIL_HOST_USER,
@@ -77,6 +77,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+
             ],
         },
     },
@@ -140,11 +142,11 @@ LOGIN_URL = '/login/'
 
 MEDIA_URL = '/data/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "workshop_app", "data")
+MEDIA_ROOT = os.path.join(BASE_DIR, "fossee_manim", 'data')
 
-LOG_FOLDER = os.path.join(BASE_DIR, "workshop_app", "logs")
+LOG_FOLDER = os.path.join(BASE_DIR, "fossee_manim", "logs")
 
-#Email Connection Settings
+# Email Connection Settings
 EMAIL_HOST = EMAIL_HOST
 EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
@@ -155,7 +157,7 @@ SENDER_EMAIL = SENDER_EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-#Change this to the production url
+# Change this to the production url
 PRODUCTION_URL = 'your_production_url'
 
 ADMIN_EMAIL = 'your admin email'

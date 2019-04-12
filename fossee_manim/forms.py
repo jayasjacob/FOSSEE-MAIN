@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 from .models import (
                     Profile, User, Animation,
-                    Comment
+                    Comment, AnimationStats
                     )
 from string import punctuation, digits
 try:
@@ -253,18 +253,30 @@ class AnimationProposal(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     """
-    Instructors will post comments on Coordinators profile
     """
 
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['comment'].label = ""
-        self.fields['comment'].widget.attrs['rows'] = 5
-        self.fields['comment'].widget.attrs['cols'] = 95
 
     class Meta:
         model = Comment
-        exclude = ['animation', 'created_date', 'commentor']
+        exclude = ['animation', 'created_date', 'commentor',
+                   'animation_status']
         widgets = {
             'comments': forms.CharField(),
+        }
+
+
+class UploadAnimationForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UploadAnimationForm, self).__init__(*args, **kwargs)
+        self.fields['video_path'].label = "Animation"
+
+    class Meta:
+        model = AnimationStats
+        exclude = ['animation', 'views', 'like', 'dislike', 'thumbnail']
+        widgets = {
+            'video_path': forms.FileInput(),
         }

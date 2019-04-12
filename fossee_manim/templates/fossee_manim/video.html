@@ -1,0 +1,89 @@
+{% extends 'fossee_manim/base.html' %}
+
+	{% block title %}
+		FOSSEE Animation
+	{% endblock %}
+
+{% block content %}
+	<div class="container" >
+        <div class="row" >
+            <div class="col-md-12" >
+                    <br>
+                    <video width="100%" height="90%" controls>
+                            <source src="{{video.0.video_path.url}}" type="video/mp4">                
+                    </video>
+                    <div class="row">
+                        <div class="col-md-8">
+                                <p style="color:#26A669; font-size: 200%; float: left;"> {{ video.0.animation.title }} </p>            
+                        </div>
+                        <div class="col-md-4">
+                                <a target="_blank" href="{{ video.animation.github }}"><p style="font-size: 70%; float: right;"> {{ video.0.animation.github }} </p></a>
+                        </div>
+                    </div>
+                    <br>
+            </div>
+            
+       </div>
+       <div class="row">
+                <div class="col-md-10">
+                                <hr>
+                                <br>
+                                <p style="color:#26A669; font-size: 100%; float: left;"> 
+                                        {{ video.0.animation.description }} 
+                                </p>
+                                <br>
+                                </div>
+       </div>
+       <hr>
+       <div class="row">
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.0.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.0.thumbnail.url }}">
+                        </a>
+                </div>
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.1.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.1.thumbnail.url }}">
+                        </a>
+                </div>
+                <div class="col-md-4">
+                        <a href="{% url 'video' reco.2.id  %}" >
+                                <span class="fa fa-play fa-4x" id="play-btn"></span>
+                                <img height="95%" width="95%" src="{{ reco.2.thumbnail.url }}">
+                        </a>
+                </div>
+       </div>
+        <div>
+                <br>  <br>
+                        <h2>Comments</h2>
+                        <div>
+                            <form method="POST">
+                                <br>
+                                {% csrf_token %}
+                                {{ comment_form.as_p }}
+                                <button type="submit" class="btn btn-default">Post</button>
+                            </form>
+                            
+                          </div>
+                          <hr style="background-color: #fff;
+                              border-top: 5px double #8c8b8b;">
+                          <table>
+                            {% for comment in comments %}
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <h5>{{ comment.commentor.profile.user.get_full_name }} | {{ comment.created_date | date  }}</h5> 
+                                  <h6 style="background-color: #ecf0f1; padding:10px;">{{ comment.comment }}</h6>
+                                  <hr style="border-top: 0.5px solid #8c8b8b;">
+                                </td>
+                              </tr>
+                            </tbody>
+                            {% endfor %}
+                          </table>
+                          
+                      <br>
+        </div>
+	</div>
+{% endblock %}

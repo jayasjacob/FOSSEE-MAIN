@@ -1,20 +1,19 @@
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives, send_mail
 from django.conf import settings
+from django.utils.crypto import get_random_string
 from os import listdir, path
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 from time import sleep
-import hashlib
-import logging.config
-import re
-from django.core.mail import send_mail
 from textwrap import dedent
 from random import randint
 from smtplib import SMTP
-from django.utils.crypto import get_random_string
 from string import punctuation, digits
+from hashlib import sha256
+import logging.config
+import re
 try:
 	from string import letters
 except ImportError:
@@ -29,13 +28,15 @@ from fossee_anime.settings import (
 					SENDER_EMAIL,
 					ADMIN_EMAIL
 					)
+
+
 __author__ = "Akshen Doke"
 
 
 def validateEmail(email):
 	if len(email) > 7:
 		if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$",
-					email) != None:
+					email) is not None:
 			return 1
 		return 0
 
@@ -43,8 +44,8 @@ def validateEmail(email):
 def generate_activation_key(username):
 	"""Generates hashed secret key for email activation"""
 	chars = letters + digits + punctuation
-	secret_key = get_random_string(randint(10,40), chars)
-	return hashlib.sha256((secret_key + username).encode('utf-8')).hexdigest()
+	secret_key = get_random_string(randint(10, 40), chars)
+	return sha256((secret_key + username).encode('utf-8')).hexdigest()
 
 
 def send_email(request, call_on, contributor=None, key=None, proposal=None):
@@ -53,7 +54,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 	try:
 		with open(path.join(settings.LOG_FOLDER,
-					'emailconfig.yaml'), 'r') as configfile:
+				  'emailconfig.yaml'), 'r') as configfile:
 			config_dict = yaml.load(configfile)
 		logging.config.dictConfig(config_dict)
 	except:
@@ -87,7 +88,8 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 					Congratulations! your animations has been released on
 					FOSSEE's website.
-					Please start with your honouriam process
+					Your animation will be live in 72 working hours.
+					Please start with your honorarium process
 
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username))
@@ -112,7 +114,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		logging.info("Animation Rejected: %s", request.user.email)
 		send_mail(
 			"FOSSEE Animation Status Update", message, SENDER_EMAIL,
-				[contributor.profile.user.email], fail_silently=True
+			[contributor.profile.user.email], fail_silently=True
 				)
 	elif call_on == 'changes':
 		message = dedent("""\
@@ -123,10 +125,9 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 					
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username,
-									proposal.title))
+								    proposal.title))
 
 		logging.info("Changes Required: %s", request.user.email)
 		send_mail(
 			"FOSSEE Animation Changes required", message, SENDER_EMAIL,
-				[contributor.profile.user.email], fail_silently=True
-				)
+			[contributor.profile.user.email], fail_silently=True)
