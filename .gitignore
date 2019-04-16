@@ -38,7 +38,7 @@ migrations/
 *.swp
 
 #images/gif
-#*.png
+*.png
 *.gif
 
 #VS code
