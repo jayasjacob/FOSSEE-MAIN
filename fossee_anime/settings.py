@@ -161,3 +161,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PRODUCTION_URL = 'your_production_url'
 
 ADMIN_EMAIL = 'your admin email'
+
+FILE_UPLOAD_PERMISSIONS = 0o644
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 36000
