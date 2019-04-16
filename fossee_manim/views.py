@@ -184,10 +184,10 @@ def user_register(request):
         else:
             if request.user.is_authenticated():
                 return redirect('/view_profile/')
+            categories = Category.objects.all()
             return render(
                 request, "fossee_manim/registration/register.html",
-                {"form": form}
-                )
+                {"form": form, 'categories': categories})
     else:
         if request.user.is_authenticated() and is_email_checked(request.user):
             return redirect('/view_profile/')
