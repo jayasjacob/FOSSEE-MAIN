@@ -74,21 +74,3 @@ class TestProfile(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertEqual(profile.institute, 'ace')
 		self.client.logout()
-
-	def test_edit_profile_post(self):
-
-		self.client.login(username=self.user2, password='pass@123')
-		response = self.client.post('/edit_profile/',
-			{
-				'first_name': 'demo_test',
-				'last_name': 'user2',
-				'institute': 'IIT',
-				'department': 'aerospace engineering'
-					})
-	
-		updated_profile_user = User.objects.get(id=self.user2.id)
-		updated_profile = Profile.objects.get(user=updated_profile_user)
-		self.assertEqual(updated_profile.institute, 'IIT')
-		self.assertEqual(updated_profile.department, 'aerospace engineering')
-		self.assertEqual(updated_profile.position, 'instructor')
-		self.assertEqual(response.status_code, 200)
