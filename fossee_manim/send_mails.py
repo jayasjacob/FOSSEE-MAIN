@@ -127,7 +127,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 					email.""".format(contributor.profile.user.username,
 								    proposal.title))
 
-		logging.info("Changes Required: %s", request.user.email)
+		logging.info("Comment by Reviewer: %s", request.user.email)
 		send_mail(
-			"FOSSEE Animation Changes required", message, SENDER_EMAIL,
+			"FOSSEE Animation  Comment by Reviewer", message, SENDER_EMAIL,
 			[contributor.profile.user.email], fail_silently=True)
