@@ -17,13 +17,15 @@ position_choices = (
     )
 
 department_choices = (
-    ("computer engineering", "Computer Science"),
+    ("computer", "Computers"),
+    ("mathematics", "Mathematics"),
+    ("physics", "Physics"),
     ("information technology", "Information Technology"),
-    ("civil engineering", "Civil Engineering"),
-    ("electrical engineering", "Electrical Engineering"),
-    ("mechanical engineering", "Mechanical Engineering"),
-    ("chemical engineering", "Chemical Engineering"),
-    ("aerospace engineering", "Aerospace Engineering"),
+    ("civil", "Civil"),
+    ("electrical", "Electrical"),
+    ("mechanical", "Mechanical"),
+    ("chemical", "Chemical"),
+    ("aerospace", "Aerospace"),
     ("biosciences and bioengineering", "Biosciences and  BioEngineering"),
     ("electronics", "Electronics"),
     ("energy science and engineering", "Energy Science and Engineering"),
