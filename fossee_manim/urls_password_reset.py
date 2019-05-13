@@ -2,10 +2,13 @@ from django.conf.urls import url
 from django.contrib.auth.views import password_reset, password_reset_confirm,\
         password_reset_done, password_reset_complete, password_change,\
         password_change_done
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
-    url(r'^forgotpassword/$', password_reset,
-        name="password_reset"),
+    url(r'^forgotpassword/$',auth_views.PasswordResetView.as_view(
+             template_name='registration/password_reset_form.html'
+         )),
     url(r'^password_reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$',
         password_reset_confirm,
         name='password_reset_confirm'),

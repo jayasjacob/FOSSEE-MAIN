@@ -188,7 +188,7 @@ def user_register(request):
                 return redirect('/view_profile/')
             categories = Category.objects.all()
             return render(
-                request, "fossee_manim/registration/register.html",
+                request, "fossee_manim/register.html",
                 {"form": form, 'categories': categories})
     else:
         categories = Category.objects.all()
@@ -197,7 +197,7 @@ def user_register(request):
         elif request.user.is_authenticated():
             return render(request, 'fossee_manim/activation.html')
         form = UserRegistrationForm()
-    return render(request, "fossee_manim/registration/register.html", {'form': form, 'categories': categories})
+    return render(request, "fossee_manim/register.html", {'form': form, 'categories': categories})
 
 
 @login_required
@@ -406,7 +406,7 @@ def search(request):
     if request.method == 'POST':
         word = request.POST.get('sbox')
         anime_list = AnimationStats.objects.filter(
-            Q(animation__title__contains=word) | Q(animation__description__contains=word)
+            Q(animation__title__contains=word) | Q(animation__outline__contains=word)
             | Q(animation__category__name__contains=word), animation__status='released')
         
     return render(request, 'fossee_manim/search_results.html',

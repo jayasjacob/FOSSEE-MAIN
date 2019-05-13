@@ -164,10 +164,10 @@ class Animation(models.Model):
     contributor = models.ForeignKey(User, on_delete=models.CASCADE)
     reviewer = models.ForeignKey(User, null=True, on_delete=models.CASCADE,
                                  related_name="%(app_label)s_%(class)s_related")
-    description = models.TextField()
+    outline = models.TextField()
     status = models.CharField(max_length=255, choices=status)
-    github = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subcategory = models.CharField(max_length=255)
     created = models.DateTimeField(default=timezone.now)
     tags = TaggableManager()
     history = HistoricalRecords()
