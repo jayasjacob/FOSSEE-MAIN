@@ -179,8 +179,7 @@ class UserRegistrationForm(forms.Form):
         new_profile.location = cleaned_data["location"]
         new_profile.title = cleaned_data["title"]
         new_profile.state = cleaned_data["state"]
-        new_profile.how_did_you_hear_about_us = cleaned_data
-        ["how_did_you_hear_about_us"]
+        new_profile.how_did_you_hear_about_us = cleaned_data["how_did_you_hear_about_us"]
         new_profile.activation_key = generate_activation_key(new_user.username)
         new_profile.key_expiry_time = timezone.now() + timezone.timedelta(
             days=1)
