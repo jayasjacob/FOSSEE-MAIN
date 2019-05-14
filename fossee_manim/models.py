@@ -204,7 +204,7 @@ class AnimationStats(models.Model):
             tempfile.mkdtemp(),  "{0}.jpg".format(self.animation.title)
             )
         file_name = "{0}.jpg".format(self.animation.title)
-        subprocess.call(['ffmpeg', '-i', video_path, '-ss', '00:00:09.000',
+        subprocess.call(['ffmpeg', '-i', video_path, '-ss', '00:00:02.000',
                         '-vframes', '1', img_output])
         if path.exists(img_output):
             que_file = open(img_output, 'rb')
