@@ -334,12 +334,17 @@ def edit_proposal(request, proposal_id=None):
             text = request.POST.get('comment')
             status1 = request.POST.get('release')
             status2 = request.POST.get('rejected')
+            status3 = request.POST.get('proposal_form')
 
-            if status1 or status2 is not None:
+            if status1 or status2 or status3 is not None:
                 if status1:
                     proposal.status = 'released'
                     send_email(request, call_on='released',
                             contributor=proposal.contributor)
+                elif status3:
+                    send_email(request, call_on='proposal_form',
+                     contributor=proposal.contributor)
+                    return redirect('/proposal_status/')
                 else:
                     proposal.status = 'rejected'
                     makepath(proposal, reject=1)
