@@ -423,26 +423,30 @@ def upload_animation(request, proposal_id=None):
             anim_stats = UploadAnimationForm(request.POST or None,
                                             request.FILES or None)
             if anim_stats.is_valid():
-                anim = AnimationStats.objects.filter(
-                        animation=proposal)
-                if anim.exists():
-                    anobj = anim.first()
-                    try:
-                        remove(anobj.thumbnail.path)
-                    except:
-                        pass
-                    remove(anobj.video_path.path)
-                    anobj.delete()
-                    anobj = AnimationStats.objects.create(
-                        animation=proposal, video_path=request.FILES['video_path'])
-                else:
-                    anobj = AnimationStats.objects.create(
-                        animation=proposal, video_path=request.FILES['video_path'])
-                anobj._create_thumbnail()
+                try:
+                    anim = AnimationStats.objects.filter(
+                            animation=proposal)
+                    if anim.exists():
+                        anobj = anim.first()
+                        try:
+                            remove(anobj.thumbnail.path)
+                        except:
+                            pass
+                        remove(anobj.video_path.path)
+                        anobj.delete()
+                        anobj = AnimationStats.objects.create(
+                            animation=proposal, video_path=request.FILES['video_path'])
+                    else:
+                        anobj = AnimationStats.objects.create(
+                            animation=proposal, video_path=request.FILES['video_path'])
+                    anobj._create_thumbnail()
+                    return render(request, 'fossee_manim/upload_success.html')
+                except:
+                    messages.warning(request, 'Please Upload a valid File')
+                    return redirect('/edit_proposal/{}'.format(proposal_id))
 
-            return render(request, 'fossee_manim/upload_success.html')
-        else:
-            return redirect('/view_profile/')
+            else:
+                return redirect('/view_profile/')
     else:
         return redirect('/login/')
 
