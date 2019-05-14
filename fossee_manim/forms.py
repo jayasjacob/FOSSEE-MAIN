@@ -24,16 +24,17 @@ position_choices = (
     )
 
 department_choices = (
-    ("computer engineering", "Computer Science"),
-    ("information technology", "Information Technology"),
-    ("civil engineering", "Civil Engineering"),
-    ("electrical engineering", "Electrical Engineering"),
-    ("mechanical engineering", "Mechanical Engineering"),
-    ("chemical engineering", "Chemical Engineering"),
-    ("aerospace engineering", "Aerospace Engineering"),
+    ("computer", "Dept. of Computers"),
+    ("mathematics", "Dept. of Mathematics"),
+    ("physics", "Dept. of Physics"),
+    ("civil", "Dept. of Civil"),
+    ("electrical", "Dept. of Electrical"),
+    ("mechanical", "Dept. of Mechanical"),
+    ("chemical", "Dept. of Chemical"),
+    ("aerospace", "Dept. of Aerospace"),
     ("biosciences and bioengineering", "Biosciences and  BioEngineering"),
-    ("electronics", "Electronics"),
-    ("energy science and engineering", "Energy Science and Engineering"),
+    ("electronics", "Dept. of Electronics"),
+    ("energy science and engineering", "Dept. of Energy Science and Engineering"),
     ("others", "Others")
     )
 
@@ -97,13 +98,20 @@ states = (
     )
 
 
+def check_upper(uname):
+    for a in uname:
+        if a.isupper():
+            return True
+    return False
+
+
 class UserRegistrationForm(forms.Form):
     """A Class to create new form for User's Registration.
     It has the various fields and functions required to register
     a new user to the system"""
     required_css_class = 'required'
     errorlist_css_class = 'errorlist'
-    username = forms.CharField(max_length=32, help_text='''Letters, digits,
+    username = forms.CharField(max_length=32, help_text='''lowercase, letters, digits,
                                period and underscore only.''')
     email = forms.EmailField()
     password = forms.CharField(max_length=32, widget=forms.PasswordInput())
@@ -124,6 +132,7 @@ class UserRegistrationForm(forms.Form):
     department = forms.ChoiceField(help_text='Department you work/study',
                                    choices=department_choices)
     location = forms.CharField(max_length=255, help_text="Place/City")
+    pincode = forms.RegexField(regex=r'^.{6}$', error_messages={'invalid': "Please enter valid PINCODE"})
     state = forms.ChoiceField(choices=states)
     how_did_you_hear_about_us = forms.ChoiceField(choices=source)
 
@@ -133,6 +142,8 @@ class UserRegistrationForm(forms.Form):
             msg = "Only letters, digits, period  are"\
                   " allowed in username"
             raise forms.ValidationError(msg)
+        if check_upper(u_name):
+            raise forms.ValidationError("lowercase only!")
         try:
             User.objects.get(username__exact=u_name)
             raise forms.ValidationError("Username already exists.")
@@ -179,6 +190,7 @@ class UserRegistrationForm(forms.Form):
         new_profile.location = cleaned_data["location"]
         new_profile.title = cleaned_data["title"]
         new_profile.state = cleaned_data["state"]
+        new_profile.pincode = cleaned_data["pincode"]
         new_profile.how_did_you_hear_about_us = cleaned_data["how_did_you_hear_about_us"]
         new_profile.activation_key = generate_activation_key(new_user.username)
         new_profile.key_expiry_time = timezone.now() + timezone.timedelta(
@@ -237,17 +249,14 @@ class AnimationProposal(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AnimationProposal, self).__init__(*args, **kwargs)
-        self.fields['github'].widget.attrs['rows'] = 1
-        self.fields['github'].widget.attrs['cols'] = 50
-        self.fields['github'].widget.attrs['placeholder'] = 'Put your repo\
- link here'
-        self.fields['description'].widget.attrs['placeholder'] = 'NOTE:-Do\
+        self.fields['subcategory'].widget.attrs['placeholder'] = 'Eg: Quantum Mechanics, Topology'
+        self.fields['outline'].widget.attrs['placeholder'] = 'NOTE:-Do\
  add info about prerequisites if any also possible textbooks or \
  other related information'
 
     class Meta:
         model = Animation
-        fields = ['category', 'title', 'description', 'github', 'tags']
+        fields = ['category', 'subcategory', 'title', 'outline', 'tags']
 
 
 class CommentForm(forms.ModelForm):

@@ -28,7 +28,7 @@ class TestProfile(TestCase):
 
 		self.user2_profile = Profile.objects.create(
 			user=self.user2,
-			department='Computer Engineering',
+			department='Computer Science',
 			institute='ace',
 			title='Doctor',
 			position='instructor',

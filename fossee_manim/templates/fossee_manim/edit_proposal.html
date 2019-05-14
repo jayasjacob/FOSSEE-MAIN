@@ -31,6 +31,9 @@
           <button class="btn btn-success" type="submit">Upload</button>
       </label>
   </form>
+  {% elif proposal_form.instance.status == 'pending' %}
+    <h3>Awaiting Reviewer's Moderation </h3>
+    
   {% else %}
     <video width="100%" height="100%" controls>
       <source src="{{video.0.video_path.url}}" type="video/mp4">                

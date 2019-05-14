@@ -26,7 +26,7 @@ def setUpModule():
 	category1 = Category.objects.create(name='Math', description='Mathematics')
 
 	reviewer_profile = Profile.objects.create(user=testUser2, position='reviewer',
-			department='computer engineering', institute='ace', phone_number='1122334456', 
+			department='computer science', institute='ace', phone_number='1122334456', 
 			title='Doctor', how_did_you_hear_about_us='Google', location='powai', state='IN-MH',
 			is_email_verified=1)
 
@@ -55,7 +55,7 @@ class ProfileModelTest(TestCase):
 		self.demouser1 = User.objects.get(username='demouser1')
 		
 		self.reviewer_profile1 = Profile.objects.create(user=self.testuser1, 
-								position='reviewer', department='computer engineering', 
+								position='reviewer', department='computer science', 
 								institute='ace', phone_number='1123323344',
 								title='Doctor', how_did_you_hear_about_us='Google', location='powai', state='IN-MH',
 								is_email_verified=1)
@@ -98,7 +98,7 @@ class AnimationModelTest(TestCase):
 				email='test.user@gmail.com', password='pass@123')
 		self.category1 = Category.objects.create(name='Biology', description='study of nature')
 		self.animation1 = Animation.objects.create(title='Testing Anime', contributor=self.demoUser2,
-		reviewer=self.testUser2, description='This is test animation upload', github='https://github.come/FOSSEE',
+		reviewer=self.testUser2, outline='This is test animation upload',
 		category=self.category1)
 
 	def test_animation_model(self):
@@ -114,7 +114,7 @@ class CommentModelTest(TestCase):
 				email='test.user@gmail.com', password='pass@123')
 		self.category1 = Category.objects.create(name='Biology', description='study of nature')
 		self.animation1 = Animation.objects.create(title='Testing Anime', contributor=self.demoUser2,
-		reviewer=self.testUser2, description='This is test animation upload', github='https://github.come/FOSSEE',
+		reviewer=self.testUser2, outline='This is test animation upload',
 		category=self.category1)
 		self.comment1 = Comment.objects.create(comment='This is a comment', commentor=self.testUser2,
 		animation=self.animation1, animation_status='changes')

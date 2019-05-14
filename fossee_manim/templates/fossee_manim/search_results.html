@@ -10,7 +10,8 @@
 	<br>
 	
 	<hr>
-	<br>	
+	<br>
+		{%if s_result %}	
 			{% for anime in s_result %}    
 				<div class="row">
 					<div class="col-md-4" >
@@ -27,6 +28,9 @@
 				</div>
 			<hr>
 			{% endfor %}
+		{% else %}
+				<h3>No Results Found </h3>
+		{% endif %}
 	<br>
 </div>
 <br>
