@@ -282,13 +282,9 @@ def send_proposal(request):
                 form_data = form.save(commit=False)
                 form_data.contributor = user
                 form_data.status = "pending"
-                if check_repo(form_data.github):
-                    form_data.save()
-                    form.save_m2m()
-                    # makepath(form_data)
-                else:
-                    messages.warning(request, 'Please enter valid github details')
-                    return render(request, 'fossee_manim/send_proposal.html',
+                form.save()
+            else:
+                return render(request, 'fossee_manim/send_proposal.html',
                                 {'form': form, 'categories': categories})
             return redirect('/proposal_status/')
         else:

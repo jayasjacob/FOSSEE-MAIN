@@ -167,7 +167,7 @@ class Animation(models.Model):
     outline = models.TextField()
     status = models.CharField(max_length=255, choices=status)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    subcategory = models.CharField(max_length=255)
+    subcategory = models.CharField(max_length=255, blank=True)
     created = models.DateTimeField(default=timezone.now)
     tags = TaggableManager()
     history = HistoricalRecords()
