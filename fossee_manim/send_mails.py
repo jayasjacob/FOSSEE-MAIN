@@ -131,3 +131,27 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		send_mail(
 			"FOSSEE Animation  Comment by Reviewer", message, SENDER_EMAIL,
 			[contributor.profile.user.email], fail_silently=True)
+	elif call_on == 'proposal_form':
+		message = dedent("""\
+					Hey {0},
+
+					Please find the attachment, fill the form and reply to this 
+					mail.
+
+					In case of queries, please revert to this
+					email.""".format(contributor.profile.user.username))
+
+		logging.info("Animation Proposal Form 2: %s", request.user.email)
+		subject = "FOSSEE Animation Proposal Form 2"
+		msg = EmailMultiAlternatives(subject, message, SENDER_EMAIL, 
+				[contributor.profile.user.email])
+		attachment_paths = path.join(settings.MEDIA_ROOT, "Proposal_Form")
+		files = listdir(attachment_paths)
+		for f in files:
+			attachment = open(path.join(attachment_paths, f), 'rb')
+			part = MIMEBase('application', 'octet-stream')
+			part.set_payload((attachment).read())
+			encoders.encode_base64(part)
+			part.add_header('Content-Disposition', "attachment; filename= %s " % f)
+			msg.attach(part)
+		msg.send()
