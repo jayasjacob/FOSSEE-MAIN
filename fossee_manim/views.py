@@ -26,6 +26,7 @@ from requests import get
 from random import sample
 from .send_mails import send_email
 import datetime as dt
+import logging.config
 import shutil
 try:
     from StringIO import StringIO as string_io
@@ -40,14 +41,19 @@ def makepath(proposal_data, reject=None):
                  proposal_data.category.name))
 
     if reject:
-        shutil.rmtree(path.join(
+        try:
+            shutil.rmtree(path.join(
                      settings.MEDIA_ROOT, proposal_data.category.name,
                      proposal_data.title.replace(" ", "_")
-                     + str(proposal_data.id)))
+                    ))
+        except:
+            logging.info("Proposal rejected")
+
+
     else:
         makedirs(path.join(settings.MEDIA_ROOT, proposal_data.category.name,
                  proposal_data.title.replace(" ", "_")
-                 + str(proposal_data.id)))
+                 ))
 
 
 def check_repo(link):
@@ -105,8 +111,8 @@ def user_login(request):
         return redirect('/admin')
     if user.is_authenticated():
         if user.groups.filter(name='reviewer').count() > 0:
-            return redirect('/view_profile/')
-        return redirect('/view_profile/')
+            return redirect('/proposal_status/')
+        return redirect('/proposal_status/')
 
     if request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -115,7 +121,7 @@ def user_login(request):
             login(request, user)
             if user.groups.filter(name='reviewer').count() > 0:
                 return redirect('/view_profile/')
-            return redirect('/how_to/')
+            return redirect('/proposal_status/')
         else:
             return render(request, 'fossee_manim/login.html', {"form": form})
     else:
@@ -464,8 +470,8 @@ def video(request, aid=None):
             x.animation.category == video[0].animation.category)]
         reviewer_id = video[0].animation.reviewer.id
         comment_list = Comment.objects.filter(animation=video[0].animation)
-        comments = [x for x in comment_list if x.animation.status !=
-                    ('pending' or 'changes')]
+        comments = [x for x in comment_list if x.animation_status not in
+                    ('pending',  'changes')]
         if request.method == 'POST':
             if is_email_checked(user):
                 comment_form = CommentForm(request.POST)
