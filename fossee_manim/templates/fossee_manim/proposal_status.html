@@ -33,6 +33,7 @@
 				<th>Title</th>
 				<th>Contributor Name</th>
 				<th>Status</th>
+				<th>Created Date</th>
 			</tr>
 		</thead>
 		{% for an in anime_list %}
@@ -41,6 +42,7 @@
 					<td>{{ an.title }}</td>
 					<td>{{ an.contributor.get_full_name }}</td>
 					<td><span class="badge">{{ an.status }}</span></td>
+					<td><span class="badge">{{ an.created }}</span></td>
 					<td><a href="{% url 'edit_proposal' an.id %}"><button type="button" class="btn btn-info">View</button></a></td>
 				</tr>
 			</tbody>
