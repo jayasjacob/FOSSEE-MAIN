@@ -414,7 +414,8 @@ def search(request):
         word = request.POST.get('sbox')
         anime_list = AnimationStats.objects.filter(
             Q(animation__title__contains=word) | Q(animation__outline__contains=word)
-            | Q(animation__category__name__contains=word), animation__status='released')
+            | Q(animation__category__name__contains=word) | Q(animation__subcategory__contains=word),
+            animation__status='released')
         
     return render(request, 'fossee_manim/search_results.html',
                   {'s_result': anime_list, 'categories': categories})
