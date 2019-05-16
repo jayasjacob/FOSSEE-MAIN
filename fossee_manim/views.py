@@ -79,9 +79,7 @@ def index(request):
     user = request.user
     form = UserLoginForm()
     if user.is_authenticated() and is_email_checked(user):
-        if user.groups.filter(name='reviewer').exists:
-            return redirect('/proposal_status/')
-        return redirect('/view_profile/')
+        return redirect('/proposal/')
     elif request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -89,9 +87,7 @@ def index(request):
             login(request, user)
             if is_superuser(user):
                 return redirect("/admin")
-            if user.groups.filter(name='reviewer').exists():
-                return redirect('/proposal_status/')
-            return redirect('/view_profile/')
+            return redirect('/proposal/')
     anime = AnimationStats.objects.filter(animation__status='released').order_by('-id')[:5]
     return render(request, "fossee_manim/index.html", {"form": form,
                     "anime" : anime
@@ -120,7 +116,7 @@ def user_login(request):
             user = form.cleaned_data
             login(request, user)
             if user.groups.filter(name='reviewer').count() > 0:
-                return redirect('/view_profile/')
+                return redirect('/proposal_status/')
             return redirect('/proposal_status/')
         else:
             return render(request, 'fossee_manim/login.html', {"form": form})
@@ -132,8 +128,10 @@ def user_login(request):
 
 def user_logout(request):
     '''Logout'''
+    categories = Category.objects.all()
     logout(request)
-    return render(request, 'fossee_manim/logout.html')
+    return render(request, 'fossee_manim/logout.html',
+                {'categories': categories })
 
 
 def activate_user(request, key=None):
@@ -313,6 +311,23 @@ def proposal_status(request):
             anime = Animation.objects.filter(contributor_id=user)
         else:
             anime_list = Animation.objects.order_by('-created')
+        
+        # Show upto 9 proposals per page
+        paginator_c = Paginator(list(anime), 9)
+        paginator_r  = Paginator(list(anime_list), 9)
+        page = request.GET.get('page')
+        try:
+            anime  = paginator_c.page(page)
+            anime_list = paginator_r.page(page)
+        except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+            anime  = paginator_c.page(1)
+            anime_list  = paginator_r.page(1)
+        except EmptyPage:
+            # If page is out of range(e.g 999999), deliver last page.
+            anime  = paginator_c.page(paginator_c.num_pages)
+            anime_list  = paginator_r.page(paginator_r.num_pages)
+
         return render(request, 'fossee_manim/proposal_status.html',
                   {'anime': anime, 'anime_list': anime_list,
                    'categories': categories})

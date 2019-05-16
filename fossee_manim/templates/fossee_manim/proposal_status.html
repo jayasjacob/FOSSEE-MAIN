@@ -65,5 +65,53 @@
 		
 	</table>
 	</div>
+
+
+	<!-- Page Navigation -->
+	<div class="container">
+		<div class="Page-Nav" align="center">
+		<nav aria-label="Page navigation">
+		 	<ul class="pagination pagination-sm">
+			  	<li class="page-item">
+				{% if request.user.profile.position == 'contributor' %}
+			      {% if anime.has_previous %}
+					<a class="page-link" tabindex="-1" 
+							href="?page={{ anime.previous_page_number }}">Prev</a>
+				  {% endif %}
+			    </li>
+			    <li class="page-item">
+			    <span class="current" >
+				 Page {{ anime.number }} of {{ anime.paginator.num_pages }}
+					</span>
+				</li>
+			    <li class="page-item">
+			    {% if anime.has_next %}
+					 <a class="page-link" href="?page={{ anime.next_page_number }}"> Next
+					</a>	
+				{% endif %}
+
+				{% else %}
+					{% if anime_list.has_previous %}
+					<a class="page-link" tabindex="-1" 
+							href="?page={{ anime_list.previous_page_number }}"> Prev </a>
+						{% endif %}
+						</li>
+						<li class="page-item">
+						<span class="current">
+						Page {{ anime_list.number }} of {{ anime_list.paginator.num_pages }}
+							</span>
+						</li>
+						<li class="page-item">
+						{% if anime_list.has_next %}
+							<a class="page-link" href="?page={{ anime_list.next_page_number }}"> Next
+							</a>	
+				{% endif %}
+
+				{% endif %}
+			    </li>
+		  	</ul>
+		</nav>
+		</div>
+	</div>
 	
 	{% endblock %}
