@@ -40,6 +40,7 @@
       <label class="btn btn-info">
           {{ upload_form }}
           <button class="btn btn-success" type="submit">Upload</button>
+          {{ msg }}
       </label>
   </form>
   {% elif proposal_form.instance.status == 'pending' and request.user.profile.position == 'contributor' %}
