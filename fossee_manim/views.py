@@ -345,6 +345,10 @@ def edit_proposal(request, proposal_id=None):
         upload_form = UploadAnimationForm()
         categories = Category.objects.all()
         video = AnimationStats.objects.filter(animation=proposal_id)
+        if len(video)>0:
+            msg = ('Previously a video was uploaded for '+ video[0].animation.title)
+        else:
+            msg = ('No video uploaded')
         try:
             comments = Comment.objects.filter(animation_id=proposal_id).order_by(
                                         '-created_date'
@@ -420,7 +424,8 @@ def edit_proposal(request, proposal_id=None):
                        "comment_form": comment_form,
                         "upload_form": upload_form,
                         'video': video,
-                        'categories': categories})
+                        'categories': categories,
+                        'msg': msg})
 
 
 def search(request):
