@@ -60,7 +60,7 @@
                 </a>
                 {% if request.user.profile.position == 'contributor' %}
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'how_to' %}">How To</a>
+                  <a class="dropdown-item" href="{% url 'guidelines' %}">Guidelines</a>
                   <a class="dropdown-item" href="{% url 'send_proposal' %}">Send Proposal</a>
                   <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
                   <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>

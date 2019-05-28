@@ -532,10 +532,9 @@ def search_category(request, cat=None):
 def guidelines(request):
     user = request.user
     categories = Category.objects.all()
-    if is_email_checked(user) and user.is_authenticated():
-        return render(request, 'fossee_manim/guidelines.html', {'categories': categories})
-    else:
-        return redirect('/register/')
+    
+    return render(request, 'fossee_manim/guidelines.html', {'categories': categories})
+    
 
 def honorarium(request):
     pass
