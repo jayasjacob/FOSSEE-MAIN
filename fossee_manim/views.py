@@ -538,3 +538,6 @@ def guidelines(request):
 
 def honorarium(request):
     pass
+
+def faqs(request):
+    pass
