@@ -1,0 +1,105 @@
+{% extends 'fossee_manim/base.html' %}
+
+	{% block title %}
+		FOSSEE Animation
+	{% endblock %}
+
+{% block content %}
+    <style>
+        span {
+            background-color: #f18973;
+        }
+    </style>
+    <div class="container-fluid">
+    <br>
+    <h1><center>Guidelines for Submitting Video Proposal</center></h1>
+    <hr>
+    <ol>
+    <li><h4>Creating an account</h4></li>
+        <ul>
+        <li>Create your account on the FOSSEE Animations website.</li>
+        <li>Upon successful registration, an email will be sent to your registered email ID. You will be required to activate your account by clicking on the activation link provided.</li>
+        </ul>
+        <br>
+        <li><h4>Submitting a proposal</h4></li>
+        <p>Before you start creating the animation videos, you need to send a proposal. The proposal is divided into two parts, stage 1 and stage 2. The details for both the stages are given below.</p>
+        <ul><li><h5>Stage 1</h5></li>
+        <ul>
+            <li>
+                Once the account is activated and you are logged in, proposals for video ideas can be submitted. Click on “Send Proposal” in the drop-down list next to your username (in the top-right corner).
+            </li>
+            <li>
+                Enter your <strong>Category</strong> and <strong>Subcategory.</strong> The Subcategory field refers to the specific subdomain in which the topic to be animated lies. 
+                <span>For example, if any topic related to Newtonian motion is to be animated, the Category would be Physics and the Subcategory would be Classical Mechanics.</span>
+                If there is any ambiguity regarding the Subcategory (or sub-categories) that the chosen topic comes under, enter your best guess after performing a Google Search.
+            </li>
+
+        <li>
+            The Title field refers to the specific topic that you have chosen to animate.
+            <span>In reference to the previous example, your title would be something like “Angular Momentum” or “Newton’s Laws of Motion”.</span>
+        </li>
+
+    <li>The <strong>Outline</strong> field should ideally include:</li>
+        <ul>
+            <li>a general description of the chosen topic,</li>
+            <li>the key points you intend to cover in your animation/ video, </li>
+            <li>the tools you might use</li>
+        </ul>
+    <p><span>If you haven’t zeroed-down on all the above specifics, try to mention a fair estimate. 150-300 words would be sufficient.</span></p>
+    
+    <li>
+        The <strong>Tags</strong> field should be filled with keywords relating to your topic of animation (i.e., your Title). 
+        <span>For example, some of the possible tags for “Angular Momentum” are  “Newtonian Physics”, “Classical Mechanics”, “Rotational Motion”, etc.</span>
+    </li>
+    <li>
+        Click on Save to Submit your proposal. 
+        Hereafter, you will be able to view and edit your proposals on proposals page. This page can be accessed by selecting “VIew Proposals” in the drop-down list next to your username in the top-right corner of your website.
+    </li>
+    </ul>
+    </ul>
+
+    <ul><li><h5>Stage 2 </h5></li>
+    <ul>
+    <li>
+        Once you have submitted the stage 1 of proposal, you will receive an email on your registered email with an attached <strong>Writer document (.odt),</strong> where specific details of the animation(s) proposed have to be filled in.
+    </li>
+    <li>
+        Further correspondence between the contributor and the moderator usually happens in the same email thread.
+    </li>
+    <li>
+        After the document has been submitted and has passed the moderator’s review, the proposal shall be <strong>cleared for submission</strong> on the FOSSEE Animations website. The contributor shall be notified of the same via email. 
+    </li>
+    </ul>
+    </ul>
+    <br>
+	<p>
+    Please note that the second form is completed and sent after the contributor has worked out the more precise details of their proposed animation.
+    It is sent so that the moderators get a fair idea of what your animation video will consist of, such as the approach to visualising a concept, 
+    the tools used, the books used for reference and so on.  
+    </p>
+
+    <li><h5> Creating your animation / visualisation:</h5></li>
+    <ul>
+        <li>
+            Any tool can be used for animations. More than one tool may also be used, as per the discretion of the contributor. 
+        </li>
+        <li>
+            However, you are expected to use only open source tools, like manim, mayavi, blender, etc.  You can also use an open source game engine. The only criteria is that the video should convey the essence of what is being animated. 
+            For more details contact: <a href = "mailto: animations@fossee.in">animations@fossee.in</a>
+        </li>
+        <li>
+            Any queries can be clarified by email or through the comments on the proposal submission page.
+        </li>
+        <li>The final video has to be submitted in a <strong>.mp4 format.</strong></li>
+        <li>
+            In case you feel that the animation video requires narration, a complementary script can be provided in a .txt file over email. A voiceover would be provided for the animations from FOSSEE. You may refer to the videos already published on the website for instances of animations with and without an additional script. 
+            You may refer to this blog for getting started with manim. Here’s the link for getting started with mayavi. 		
+        </li>
+    </ul>
+    <br>
+    <li><h5>Uploading the final video</h5></li>
+    After submitting the proposal - form 2 and after the moderator has approved, you will receive a link on your proposals page for uploading the required video.  The notification for the same will again be sent via email. 
+    
+    </ol>
+    </div>
+{% endblock %}

@@ -18,10 +18,11 @@ urlpatterns = [
         name='upload_animation'),
     url(r'^proposal_status/$', views.proposal_status, name='proposal_status'),
     url(r'^search/$', views.search, name='search'),
-    url(r'^how_to/$', views.how_to, name='how_to'),
+    url(r'^guidelines/$', views.guidelines, name='guidelines'),
     url(r'^view_profile/$', views.view_profile, name='view_profile'),
     url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
     url(r'^video/([1-9][0-9]*)$', views.video, name='video'),
+     url(r'^honorarium/([1-9][0-9]*)$', views.honorarium, name='honorarium'),
     url(r'^search_category/(?P<cat>.+)$', views.search_category,
         name='search_category')
 ]
