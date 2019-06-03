@@ -33,6 +33,10 @@ try:
 except ImportError:
     from io import BytesIO as string_io
 
+__author__ = "Akshen Doke"
+__credits__ = ["Prabhu Ramachandran", "Aditya P.", "KhushalSingh Rajput",
+                "Prathamesh Salunke", "Purusharth Saxsena", "Sharanya Achut"
+                ]
 
 def makepath(proposal_data, reject=None):
     if not path.exists(path.join(settings.MEDIA_ROOT,
