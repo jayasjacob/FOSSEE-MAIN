@@ -280,7 +280,7 @@ class UploadAnimationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UploadAnimationForm, self).__init__(*args, **kwargs)
-        self.fields['video_path'].label = "Animation"
+        self.fields['video_path'].label = "Animation(.mp4 only)"
 
     class Meta:
         model = AnimationStats

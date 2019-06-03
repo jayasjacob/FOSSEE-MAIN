@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^view_profile/$', views.view_profile, name='view_profile'),
     url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
     url(r'^video/([1-9][0-9]*)$', views.video, name='video'),
-     url(r'^honorarium/([1-9][0-9]*)$', views.honorarium, name='honorarium'),
+    url(r'^honorarium/$', views.honorarium, name='honorarium'),
+    url(r'^faqs/$', views.faqs, name='faqs'),
     url(r'^search_category/(?P<cat>.+)$', views.search_category,
         name='search_category')
 ]

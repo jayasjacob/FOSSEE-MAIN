@@ -108,6 +108,14 @@ def attachments(instance, filename):
                      instance.animation.title,
                      str(instance.animation.id), filename)
 
+def validate_file_extension(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = ['.mp4']
+    if not ext.lower() in valid_extensions:
+        raise ValidationError(u'Unsupported file extension.')
+
 
 class Profile(models.Model):
     """Profile for users(instructors and coordinators)"""
@@ -196,7 +204,7 @@ class AnimationStats(models.Model):
     like = models.PositiveIntegerField(default=0)
     dislike = models.PositiveIntegerField(default=0)
     thumbnail = models.ImageField(null=True, blank=True, upload_to=attachments)
-    video_path = models.FileField(null=True, blank=True, upload_to=attachments)
+    video_path = models.FileField(null=True, blank=True, upload_to=attachments, validators=[validate_file_extension])
 
     def _create_thumbnail(self):
         video_path = self.video_path.path

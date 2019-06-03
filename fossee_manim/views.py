@@ -79,7 +79,7 @@ def index(request):
     user = request.user
     form = UserLoginForm()
     if user.is_authenticated() and is_email_checked(user):
-        return redirect('/proposal/')
+        return redirect('/proposal_status/')
     elif request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -87,7 +87,7 @@ def index(request):
             login(request, user)
             if is_superuser(user):
                 return redirect("/admin")
-            return redirect('/proposal/')
+            return redirect('/proposal_status/')
     anime = AnimationStats.objects.filter(animation__status='released').order_by('-id')[:5]
     return render(request, "fossee_manim/index.html", {"form": form,
                     "anime" : anime
@@ -530,11 +530,14 @@ def search_category(request, cat=None):
 
 
 def guidelines(request):
-    user = request.user
     categories = Category.objects.all()
-    
     return render(request, 'fossee_manim/guidelines.html', {'categories': categories})
     
 
 def honorarium(request):
-    pass
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/honorarium.html', {'categories': categories})
+
+def faqs(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/faqs.html', {'categories': categories})
