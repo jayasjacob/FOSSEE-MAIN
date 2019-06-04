@@ -1,13 +1,12 @@
 <html>
     <head>
         <meta charset="utf-8">
+
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="Akshen Doke" content="PRE, FOSSEE-IITB">
+        <meta name="Akshen Doke" content="FOSSEE-IITB">
         <meta name="title" content="Welcome to FOSSEE's Animation for Education">
-        <meta name="description" content="The FOSSEE team at IIT Bombay conducts remote-assisted training programs in Python.
-        These are interactive workshop sessions with hands-on experience, live assistance, practice sessions and evaluation quizzes.
-        These programs can be conducted at your institution / organisation, free of charge.">
+        <meta name="description" content=".">
         <meta name="keywords" content="fossee, iit bombay, animation based learning math, manim, python based animations">
         <!-- favicon -->
         <link rel="shortcut icon" type="image/png" href="{{ URL_ROOT}}/static/img/fevicon_python.png"/>
@@ -32,106 +31,92 @@
         <title>Welcome</title>
         
     </head>
+    <style>
+        #circle:hover {
+            color: orange;
+        }
+  </style>
     <body>
-        <div class="container-fluid" style="height:100%; background-color: #3D5A50;">
-            <div class="row" id="r1" style="background-color:#ffffff">
-                <div class="col-md-2" id="brand"><img style="padding-top: 5%;" src="{{ URL_ROOT}}/static/img/logo.png"></div>
-                <div class="col-md-10" style="text-align:center;" id="tag"><strong>Animation based learning</strong></div>
+        <div class="row" style="background-color: #081130">
+            <div class="col-md-3">
+                <center>
+                    <img src="{{ URL_ROOT }}/static/img/logo.png" style="width: 50%; background-color: white; margin: 10 10 10 10;">
+                </center>
             </div>
-
-            <div class="row" id="r2" style="background-color:#3D5A50">
-                <div class="col-md-8">
-                    <form class="example" id="search_bar" method="POST" action="/search/">
+            <div class="col-md-6">
+                    <form class="example" id="search_bar" method="POST" action="/search/" style="margin-bottom: 5%; margin-right: 5%; margin-left: 3%;">
                         {% csrf_token %}
-                        <input type="text" id="sbox" name="sbox" type="search" placeholder="Search" id="search_tab">
-                        
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                            <input type="text" id="sbox" name="sbox" type="search" placeholder="Search" id="search_tab">
+                            <button type="submit"><i class="fa fa-search"></i></button> 
                       </form>
-                </div>
-                <div class="col-md-2" id="btns" style="text-align:center;">
-                    <a href="{% url 'login' %}"><strong>Login</strong></a>
-                </div>
-                <div class="col-md-2" id="btns" style="text-align:center;">
-                    <a href="{% url 'register' %}"><strong>Register</strong></a>
-                </div>
             </div>
-
-            <div class="row" id="r3" style="background-color:ghostwhite">
-                    <div class="col-md-6">
-                        <img src="{{URL_ROOT}}/static/img/math_icon.png" style="width: 25%; padding-top: 5%; padding-left: 2%;" alt="">
-                        <img src="{{URL_ROOT}}/static/img/phy_icon.png" style="width: 25%; padding-top: 5%; padding-left: 2%;" alt="">
-                        <img src="{{URL_ROOT}}/static/img/aero_icon.png" style="width: 25%; padding-top: 5%; padding-left: 2%;" alt="">
-                        <img src="{{URL_ROOT}}/static/img/chem_icon.png" style="width: 25%; padding-top: 5%; padding-left: 2%;" alt="">
-                    </div>
-                    <div class="col-md-6" style="background-color:#436355;" >
-                        <iframe width="100%" height="55%" 
-                        src="https://www.youtube.com/embed/JGLfa66Os0Q" frameborder="0" allow="accelerometer;
-                        encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                        </iframe>   
-                    </div>
+            <div class="col-md-3" >
+                <a href="{% url 'login' %}">
+                    <button class="btn btn-default pull-right" style="background: #545B6B; color:white;margin-bottom: 5%;margin-top: 10%;margin-right: 5%;">
+                        Login
+                    </button>
+                </a>
+                <a href="{% url 'register' %}">
+                    <button class="btn btn-default pull-right" style="background: #545B6B; color:white; margin-top: 10%;margin-bottom: 5%;margin-right: 1%; ">
+                        Register
+                    </button>
+                </a>
             </div>
-
-            <div class="row" id="r4" style="background-color:ghostwhite">
-                <hr style="height:3px;">
-                <div class="col-md-3" style="text-align:center;">
-                    <a href="{% url 'video' anime.0.id  %}" >
-                        <span class="fa fa-play fa-4x" id="play-btn"></span>
-                        <img height="25%" width="65%" src="{{ anime.0.thumbnail.url }}">
-                    </a>
-                </div>
-                <div class="col-md-3" style="text-align:center;">
-                    <a href="{% url 'video' anime.1.id  %}" >
-                        <span class="fa fa-play fa-4x" id="play-btn"></span>
-                        <img height="25%" width="65%" src="{{ anime.1.thumbnail.url }}">
-                    </a>
-                </div>
-                <div class="col-md-3" style="text-align:center;">
-                    <a href="{% url 'video' anime.2.id  %}" >
-                        <span class="fa fa-play fa-4x" id="play-btn"></span>
-                        <img height="25%" width="65%" src="{{ anime.2.thumbnail.url }}">
-                    </a>
-                </div>
-                <div class="col-md-3" style="text-align:center;">
-                    <a href="{% url 'video' anime.3.id  %}" >
-                        <span class="fa fa-play fa-4x" id="play-btn"></span>
-                        <img height="25%" width="65%" src="{{ anime.3.thumbnail.url }}">
-                    </a>
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="background-color: #A5C9FF;">
+                <center>
+                        <img src="{{ URL_ROOT }}/static/img/logo_center.png" style="width: 20%;  margin: 10% 0% 20% 0%; background-color: #A5C9FF;">
+                </center> 
             </div>
-
-            <div class="row" id="r5" style="background-color:#436355;">
-                    <div class="col-md-4" style="text-align:center;">
-                        <br>
-                        <img src="{{ URL_ROOT}}/static/img/fossee_logo_iitb.png" >
-                    </div>
-                    <div class="col-md-4" style="text-align:center; color:ghostwhite;
-                    font-size: 100%;
-                    ">
-                        <br>
+        </div>
+        <div class="row" style="background-color: white;">
+                <div class="col-md-4">
+                        <center>
+                         <a href="{% url 'guidelines' %}">   <img src="{{ URL_ROOT }}/static/img/guidelines.png" id="circle" style="margin: 5% 0 5% 0"></a>
+                        </center>
+                </div>
+                <div class="col-md-4">
+                        <center>
+                            <a href="{% url 'faqs' %}"><img src="{{ URL_ROOT }}/static/img/faqs.png" id="circle" style="margin: 5% 0 5% 0"></a>
+                        </center>
+                </div>
+                <div class="col-md-4">
+                        <center>
+                            <a href="{% url 'login' %}"><img src="{{ URL_ROOT }}/static/img/submit.png" id="circle" style="margin: 5% 0 5% 0"></a>
+                        </center>
+                </div>
+        </div>
+        <div class="row" style="background-color: #E4EBEA;">
+                <div class="col-md-12">
+                        <center>
+                            <img src="{{ URL_ROOT }}/static/img/info.png" style="width:80%; margin-top: 5%; margin-bottom: 5%;">
+                        </center>
+                </div>
+        </div>
+        <div class="row" style="background-color: #081130;">
+                <div class="col-md-4">
+                    <center>
+                        <img src="{{ URL_ROOT }}/static/img/fossee_logo_iitb.png" style="margin-top: 5%;">
+                    </center>
+                </div>
+                <div class="col-md-4" style="color: white; margin-bottom: 1%;">
+                        <br> <br>
                         FOSSEE,
                         IIT-Bombay <br>Mumbai, India <br>
                         Phone: (+91) 22 2576 4133 <br>
-                        Email: workshops[at]fossee[dot]in
-                    </div>
-                    <div class="col-md-4" style="text-align:center;">
-                        <div id="social">
-                            <br> <br>
-                            <a href="https://www.facebook.com/FOSSEENMEICT/" target="_blank" class="fa fa-facebook"></a> &nbsp;
-                            <a href="https://plus.google.com/u/0/104012350840765676803" target="_blank" class="fa fa-google"></a> &nbsp;
-                            <a href="https://www.youtube.com/channel/UCMtt6exSCmZI7JU73S6Wz_A" target="_blank" class="fa fa-youtube"></a>
-                    </div>
-                    </div>
-
-
-                    <div class="col-md-12" id="r6" style="background-color:#436355; text-align: center; color:ghostwhite;">
-                        <hr>
-                        The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.  <br>
-                        This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
-                        <br><br>
-                    </div>
+                        Email: animations[at]fossee[dot]in
+                </div>
+                <div class="col-md-4" style="margin-top:3%;">
+                        <a style="color:white;" href="https://python.fossee.in/about/" target="_blank">About Us </a>| <a style="color:white;" href="{% url 'honorarium' %}" target="_blank">Honorarium</a>
+                </div>
+        </div>
+        <div class="row" style="background-color: #081130;">
+                <hr style="background-color:grey;">
+            <div class="col-md-12" style="background-color: #081130; color:white; text-align: center; margin-bottom: 1%;">
+                    The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
+                    This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
             </div>
-
-            
         </div>
     </body>
 </html>
