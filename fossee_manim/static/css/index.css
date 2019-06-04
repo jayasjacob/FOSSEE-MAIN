@@ -12,7 +12,7 @@
 
 
 #search_bar {
-    padding-top: 1.5%;
+    padding-top: 3.5%;
 }
 
 form.example input[type=text] {
@@ -20,15 +20,13 @@ form.example input[type=text] {
     font-size: 17px;
     border: 1px solid grey;
     float: left;
-    width: 80%;
+    width: 70%;
     background: #f1f1f1;
 }
 
 form.example button {
-    float: left;
-    margin-left: 1%;
-    height: 6%;
-    width: 12%;
+    height: 6.6%;
+    width: 18%;
     background:#F5404C;
     color: white;
     font-size: 150%;
@@ -108,3 +106,9 @@ hr {
 #social a{
     color: white;
 }
+
+
+#circle:hover {
+    background-color: #ffe0b2;
+    border-radius: 50%;
+  }

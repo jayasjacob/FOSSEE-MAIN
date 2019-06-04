@@ -1,6 +1,6 @@
 /* Navbar */
 .navbar-custom {
-	background:  #3D5A50;
+	background:  #081130;
     color:black;
   	border-radius:0;
 }
@@ -18,7 +18,7 @@
 /* Brand-CompanyName */
 .navbar-custom .navbar-brand {
 	color:#efefef;
-  background-color: #3D5A50;
+  background-color: #081130;
 }
 
 
@@ -87,4 +87,9 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
+}
+
+#circle:hover {
+  background-color: #ffe0b2;
+  border-radius: 50%;
 }

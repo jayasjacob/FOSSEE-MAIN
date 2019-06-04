@@ -27,8 +27,8 @@ form.example input[type=text] {
 form.example button {
     float: left;
     margin-left: 1%;
-    height: 6%;
-    width: 12%;
+    height: 10%;
+    width: 25%;
     background:#F5404C;
     color: white;
     font-size: 150%;
@@ -108,3 +108,9 @@ hr {
 #social a{
     color: white;
 }
+
+
+#circle:hover {
+    background-color: #ffe0b2;
+    border-radius: 50%;
+  }
