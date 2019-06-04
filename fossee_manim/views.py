@@ -84,18 +84,7 @@ def index(request):
     form = UserLoginForm()
     if user.is_authenticated() and is_email_checked(user):
         return redirect('/proposal_status/')
-    elif request.method == "POST":
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            user = form.cleaned_data
-            login(request, user)
-            if is_superuser(user):
-                return redirect("/admin")
-            return redirect('/proposal_status/')
-    anime = AnimationStats.objects.filter(animation__status='released').order_by('-id')[:5]
-    return render(request, "fossee_manim/index.html", {"form": form,
-                    "anime" : anime
-                })
+    return render(request, "fossee_manim/index.html")
 
 
 def is_reviewer(user):
