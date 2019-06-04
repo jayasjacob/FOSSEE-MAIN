@@ -15,6 +15,18 @@
     padding-top: 3.5%;
 }
 
+#center_row {
+    background-color: #A5C9FF;
+    height: 420px;
+    padding: 5%;
+    text-align: center;
+}
+
+#container_img {
+    margin: auto;
+    
+}
+
 form.example input[type=text] {
     padding: 10px;
     font-size: 17px;
@@ -25,8 +37,8 @@ form.example input[type=text] {
 }
 
 form.example button {
-    height: 6.6%;
-    width: 18%;
+    padding: 6px;
+    width: 30%;
     background:#F5404C;
     color: white;
     font-size: 150%;

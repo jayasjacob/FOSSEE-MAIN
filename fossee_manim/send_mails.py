@@ -122,10 +122,11 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 					Please check your proposal {1}
 					for comments by our reviewers
+					Follow this link to login {2}/login
 					
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username,
-								    proposal.title))
+								    proposal.title, PRODUCTION_URL))
 
 		logging.info("Comment by Reviewer: %s", request.user.email)
 		send_mail(

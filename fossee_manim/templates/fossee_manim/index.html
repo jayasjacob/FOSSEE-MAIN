@@ -28,12 +28,12 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
-        <title>Welcome</title>
+    <title>Welcome</title>
         
     </head>
     <style>
         #circle:hover {
-            color: orange;
+            color: rgb(13, 108, 233);
         }
   </style>
     <body>
@@ -44,7 +44,7 @@
                 </center>
             </div>
             <div class="col-md-6">
-                    <form class="example" id="search_bar" method="POST" action="/search/" style="margin-bottom: 5%; margin-right: 5%; margin-left: 3%;">
+                    <form class="example" id="search_bar" method="POST" action="/search/" >
                         {% csrf_token %}
                             <input type="text" id="sbox" name="sbox" type="search" placeholder="Search" id="search_tab">
                             <button type="submit"><i class="fa fa-search"></i></button> 
@@ -63,13 +63,17 @@
                 </a>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12" style="background-color: #A5C9FF;">
-                <center>
-                        <img src="{{ URL_ROOT }}/static/img/logo_center.png" style="width: 20%;  margin: 10% 0% 20% 0%; background-color: #A5C9FF;">
-                </center> 
+
+        <div class="row" id="center_row">
+            <div class="col-md-12">
+                        <img  id="container_img" class="img-responsive" src="{{ URL_ROOT }}/static/img/logo_center.png">
+                        <p></p>
+                       <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. <br> Quae debitis porro incidunt quis, 
+                        consequuntur reprehenderit temporibus nam quisquam distinctio doloribus consequatur at ut, <br> libero et corrupti eaque odio assumenda ab.
+                        </p>
             </div>
         </div>
+
         <div class="row" style="background-color: white;">
                 <div class="col-md-4">
                         <center>
