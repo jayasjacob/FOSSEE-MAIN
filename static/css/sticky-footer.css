@@ -89,7 +89,7 @@
   border-radius: 5px;
 }
 
+
 #circle:hover {
-  background-color: #ffe0b2;
-  border-radius: 50%;
+  color: orange;
 }
