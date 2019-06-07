@@ -11,18 +11,34 @@
 }
 
 
+#search_bar {
+    padding-top: 3.5%;
+}
+
+#center_row {
+    background-color: #A5C9FF;
+    height: 420px;
+    padding: 5%;
+    text-align: center;
+}
+
+#container_img {
+    margin: auto;
+    
+}
 
 form.example input[type=text] {
-    padding: 5px;
+    padding: 10px;
     font-size: 17px;
     border: 1px solid grey;
     float: left;
+    width: 70%;
     background: #f1f1f1;
 }
 
 form.example button {
-    float: left;
-    margin-left: 1%;
+    padding: 6px;
+    width: 30%;
     background:#F5404C;
     color: white;
     font-size: 150%;
