@@ -301,7 +301,7 @@ def proposal_status(request):
         anime_list = {}
         categories = Category.objects.all()
         if profile.position == 'contributor':
-            anime = Animation.objects.filter(contributor_id=user)
+            anime = Animation.objects.filter(contributor_id=user).order_by('-created')
         else:
             anime_list = Animation.objects.order_by('-created')
         
