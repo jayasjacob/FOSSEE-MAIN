@@ -251,8 +251,8 @@ class AnimationProposal(forms.ModelForm):
         super(AnimationProposal, self).__init__(*args, **kwargs)
         self.fields['subcategory'].widget.attrs['placeholder'] = 'Eg: Quantum Mechanics, Topology'
         self.fields['outline'].widget.attrs['placeholder'] = 'NOTE:-Do\
- add info about prerequisites if any also possible textbooks or \
- other related information'
+ add info about prerequisites (if any), possible textbooks and \
+ any other related information'
 
     class Meta:
         model = Animation
