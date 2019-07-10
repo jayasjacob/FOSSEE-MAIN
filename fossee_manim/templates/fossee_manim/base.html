@@ -53,7 +53,7 @@
 				</li>
 		    </ul>
 	   </div>
-         <!-- {% if user.is_authenticated %}
+        <!-- {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto mr-5">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -105,10 +105,38 @@
 		<h1>Base Template Content. Please override me</h1>
 	{% endblock %}
 	</main>
-	{% block footer %}
 
-{% endblock %}
+	{% block footer %}
+	<div class="jumbotron" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md text-center">
+					<img src="https://animations.fossee.in/static/img/fossee_logo_iitb.png" style="">
+				</div>
+				<div class="col-md text" style="color:#e9ecef;">
+					FOSSEE | IIT-Bombay <br>
+					Mumbai, India  - 400-076 <br>
+					Phone: (+91) 22-2576-4133<br>
+					Email: animations@fossee.in
+				</div>
+				<div class="col-md text-center" style="color:#e9ecef; margin-top: 15px">
+				  <b>Follow us on:<br/>
+				  <a href="https://twitter.com/fosseenmeict" class="fa fa-twitter"></a>
+				  <a href="https://www.instagram.com/fossee_nmeict/" class="fa fa-instagram"></a>
+				  <a href="https://www.facebook.com/FOSSEENMEICT/" class="fa fa-facebook"></a>
+				  <a href="https://github.com/FOSSEE/" class="fa fa-github"></a>
+				</div>
+			</div>
+			<hr>
+			<div class="text-center row" style="color: #e9ecef; color:white;  padding:10px;margin-left: 10px; text-align:center">
+				The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
+					This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+			</div>
+		</div>
+	</div>
+	{% endblock footer%}
 
 </body>
-<br>
+
 </html>
