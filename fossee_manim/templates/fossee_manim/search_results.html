@@ -5,14 +5,9 @@
 	{% endblock %}
 
 {% block content %}
-<br>
-<div class="container-fluid" >
-	<br>
-	
-	<hr>
-	<br>
-		{% if s_result %}	
-			{% for anime in s_result %}    
+<div class="container-fluid jumbotron" style="margin-top:20px">
+		{% if s_result %}
+			{% for anime in s_result %}
 				<div class="row">
 					<div class="col-md-4" >
 						<a href="{% url 'video' anime.id  %}" >
@@ -30,9 +25,10 @@
 			{% endfor %}
 		{% else %}
 				<h3>No Results Found </h3>
+				<hr>
 		{% endif %}
 	<br>
 </div>
 <br>
-	
+
 {% endblock %}
