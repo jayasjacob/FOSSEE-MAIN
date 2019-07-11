@@ -8,97 +8,118 @@
 		{% endblock %}
 	</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ URL_ROOT }}/static/css/sticky-footer.css" type="text/css" />
     <!-- favicon -->
-    <link rel="shortcut icon" type="image/png" href="{{ URL_ROOT}}/"/>
+    <link rel="shortcut icon" href="{{ URL_ROOT }}/static/img/favicon.ico" />
 </head>
 
 	<!-- For js/ajax and other related scripts -->
   {% block extra %}
 
-	{% endblock %}
-
-<body style="overflow: scroll;">
- {% block header %}
- <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="{% url 'index' %}">FOSSEE Animations</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon">=</span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-          <form class="form-inline" method="POST" action="/search/">
-            {% csrf_token %}
-            <input class="form-control mr-sm-2" id="sbox" name="sbox" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Categories
-              </a>
-
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  {% for c in categories %}
-                <a class="dropdown-item" href="{% url 'search_category' c.name %}">{{c.name}}</a>
-                {% endfor %}
-              </div>
-            </li>
-          </ul>
-
-          {% if user.is_authenticated %}
-            <ul class="navbar-nav ml-auto mr-5">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {{user.first_name}}
-                </a>
-                {% if request.user.profile.position == 'contributor' %}
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'guidelines' %}">Guidelines</a>
-                  <a class="dropdown-item" href="{% url 'send_proposal' %}">Send Proposal</a>
-                  <a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
-                  <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
-				  <a class="dropdown-item" href="{% url 'honorarium' %}">Honorarium</a>
-				  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-              </div>
-              {% else %}
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'proposal_status' %}">Submitted Proposals</a>
-                  <a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
-                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-              </div>
-              {% endif %}
-            </li>
-            </ul>
-          {% else %}
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                 <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-            </ul>
-          {% endif %}
-        </div>
-      </nav>
   {% endblock %}
 
+<body>
+ {% block header %}
+ 	<nav class="navbar navbar-expand-lg navbar-light row bck_clr fixed-top" style="background-color:#222222; padding-top: 20px; padding-bottom: 20px;">
+		<a class="navbar-brand" href="{% url 'index' %}">
+			<img src="{{ URL_ROOT }}/static/img/logo_main.png" width="150" height="33.75" alt="" style="margin-right: 50px; margin-left: 20px">
+		</a>
+	    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px">
+				{% csrf_token %}
+				<input class="form-control mr-sm-2" type="search" id="sbox" name="sbox" placeholder="Search for animations">
+					<button class="btn btn-primary my-2 my-sm-0" type="submit">
+			 		Search
+					</button>
+			</form>
+
+			<ul class="navbar-nav ml-md-auto">
+			 	<li class="nav-item dropdown">
+					{% if user.is_authenticated %}
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white"> {{user.first_name}}</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+						{% if request.user.profile.position == 'contributor' %}
+							<a class="dropdown-item" href="{% url 'proposal_status' %}">Proposal Status</a>
+						{% else %}
+							<a class="dropdown-item" href="{% url 'proposal_status' %}">Submitted Proposals</a>
+						{% endif %}
+							<div class="dropdown-divider">
+							</div>
+							<a class="dropdown-item" href="{% url 'view_profile' %}">View Profile</a>
+							<div class="dropdown-divider">
+							</div>
+							<a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+					</div>
+					{% else %}
+					<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" style="color:white">Login / Register</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="{% url 'login' %}">Login</a>
+						<div class="dropdown-divider">
+						</div>
+						<a class="dropdown-item" href="{% url 'register' %}">Register</a>
+					</div>
+					{% endif %}
+				</li>
+		    </ul>
+	   </div>
+    </nav>
+	<div class="jumbotron  sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; color:#dddddd">
+		<div class="btn-group btn-group-lg" role="group">
+			<button class="btn btn-link perma_link" type="button"><a href="#" style="color:#157b80">About</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'guidelines' %}" style="color:#222222">Guidelines</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'faqs' %}" style="color:#222222">FAQ</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'honorarium' %}" style="color:#222222">Honorarium</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'send_proposal' %}" style="color:#dd1100">Submit Proposal</a></button>
+		</div>
+	</div>
+  	{% endblock %}
+	<main role="main" class="container">
     {% block content %}
     <br><br>
 		<h1>Base Template Content. Please override me</h1>
 	{% endblock %}
+	</main>
 
 	{% block footer %}
+	<div class="jumbotron" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
 
-	{% endblock %}
+		<div class="container">
+			<div class="row">
+				<div class="col-md text-center">
+					<img src="{{ URL_ROOT }}/static/img/fossee_logo_iitb.png" style="">
+				</div>
+				<div class="col-md text" style="color:#e9ecef;">
+					FOSSEE | IIT-Bombay <br>
+					Mumbai, India  - 400-076 <br>
+					Phone: (+91) 22-2576-4133<br>
+					Email: animations@fossee.in
+				</div>
+				<div class="col-md text-center" style="color:#e9ecef; margin-top: 15px">
+				  <b>Follow us on:<br/>
+				  <a href="https://twitter.com/fosseenmeict" class="fa fa-twitter"></a>
+				  <a href="https://www.instagram.com/fossee_nmeict/" class="fa fa-instagram"></a>
+				  <a href="https://www.facebook.com/FOSSEENMEICT/" class="fa fa-facebook"></a>
+				  <a href="https://github.com/FOSSEE/" class="fa fa-github"></a>
+				</div>
+			</div>
+			<hr>
+			<div class="text-center row" style="color: #e9ecef; color:white;  padding:10px;margin-left: 10px; text-align:center">
+				The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
+					This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+			</div>
+		</div>
+	</div>
+	{% endblock footer%}
 
 </body>
-<br>
+
 </html>

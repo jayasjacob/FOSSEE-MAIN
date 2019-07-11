@@ -62,13 +62,11 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 	if call_on == "Registration":
 		message = dedent("""\
-					Thank you for registering as a contributor with us.
-					Please click on the below link to
-					activate your account
-					{0}/activate_user/{1}
-					After activation you can proceed to submit proposals for
-					animations.
-					In case of queries regarding submition of proposal(s),
+					Thank you for registering as a contributor at FOSSEE Animations.
+					Please click on the below link to activate your account {0}/activate_user/{1}
+					Once you've activated your account, you can go ahead and submit proposal.
+
+					In case you have any queries regarding submition of proposal(s),
 					revert to this email.""".format(PRODUCTION_URL, key))
 
 		logging.info("New Registration from: %s", request.user.email)
@@ -86,32 +84,30 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		message = dedent("""\
 					Hey {0},
 
-					Congratulations! your animations has been released on
-					FOSSEE's website.
-					Your animation will be live in 72 working hours.
-					Please start with your honorarium process
+					Congratulations! your animations has been published on the FOSSEE animation website.
+					People will be able to search for your animation within 72 working hours.
+
+					Please start with your honorarium process. Please visit https://animations.fossee.in/honorarium/ for more details.
 
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username))
 
 		logging.info("Released Animation: %s", request.user.email)
 		send_mail(
-			"Congratulations! Animation Released!", message, SENDER_EMAIL,
+			"Congratulations! Your Animation was Accepted!", message, SENDER_EMAIL,
 				[contributor.profile.user.email], fail_silently=True
 				)
 	elif call_on == 'rejected':
 		message = dedent("""\
-					Hey {0},
+					Dear {0},
 
-					We are sorry to inform you that your proposal for
-					FOSSEE Animation is rejected.
-					You can work on the feedback given by the reviewer or
-					send us another proposal on a different topic!
+					Thank you for your patience, we're sorry to inform that your proposal was unsucessful.
+					You can work on the feedback given by the reviewer or send us another proposal on a different topic!
 
-					In case of queries, please revert to this
+					If you have any queries or if you think there has been some mistake, please revert back to this
 					email.""".format(contributor.profile.user.username))
 
-		logging.info("Animation Rejected: %s", request.user.email)
+		logging.info("FOSSEE Animations | Proposal Outcome: %s", request.user.email)
 		send_mail(
 			"FOSSEE Animation Status Update", message, SENDER_EMAIL,
 			[contributor.profile.user.email], fail_silently=True
@@ -120,10 +116,9 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		message = dedent("""\
 					Hey {0},
 
-					Please check your proposal {1}
-					for comments by our reviewers
+					Please check your proposal {1} for comments by our reviewers
 					Follow this link to login {2}/login
-					
+
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username,
 								    proposal.title, PRODUCTION_URL))
@@ -136,15 +131,15 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		message = dedent("""\
 					Hey {0},
 
-					Please find the attachment, fill the form and reply to this 
-					mail.
+					Thank you for submitting the Proposal for stage 1.
+					Please find the attachment, fill the form and reply to this e-mail.
 
 					In case of queries, please revert to this
 					email.""".format(contributor.profile.user.username))
 
 		logging.info("Animation Proposal Form 2: %s", request.user.email)
 		subject = "FOSSEE Animation Proposal Form 2"
-		msg = EmailMultiAlternatives(subject, message, SENDER_EMAIL, 
+		msg = EmailMultiAlternatives(subject, message, SENDER_EMAIL,
 				[contributor.profile.user.email])
 		attachment_paths = path.join(settings.MEDIA_ROOT, "Proposal_Form")
 		files = listdir(attachment_paths)

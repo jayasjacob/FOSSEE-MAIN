@@ -24,17 +24,17 @@ position_choices = (
     )
 
 department_choices = (
-    ("computer", "Dept. of Computers"),
+    ("computer", "Dept. of Computer Science/Engg."),
     ("mathematics", "Dept. of Mathematics"),
     ("physics", "Dept. of Physics"),
-    ("civil", "Dept. of Civil"),
-    ("electrical", "Dept. of Electrical"),
-    ("mechanical", "Dept. of Mechanical"),
-    ("chemical", "Dept. of Chemical"),
-    ("aerospace", "Dept. of Aerospace"),
+    ("civil", "Dept. of Civil Engineering"),
+    ("electrical", "Dept. of Electrical Engg."),
+    ("mechanical", "Dept. of Mechanical Engg."),
+    ("chemical", "Dept. of Chemistry"),
+    ("aerospace", "Dept. of Aerospace Engg."),
     ("biosciences and bioengineering", "Biosciences and  BioEngineering"),
     ("electronics", "Dept. of Electronics"),
-    ("energy science and engineering", "Dept. of Energy Science and Engineering"),
+    ("energy science and engineering", "Dept. of Energy Science and Engg"),
     ("others", "Others")
     )
 
@@ -42,8 +42,8 @@ title = (
     ("Professor", "Prof."),
     ("Doctor", "Dr."),
     ("Shriman", "Shri"),
-    ("Shrimati", "Smt"),
-    ("Kumari", "Ku"),
+    ("Shrimati", "Smt."),
+    ("Kumari", "Ku."),
     ("Mr", "Mr."),
     ("Mrs", "Mrs."),
     ("Miss", "Ms."),
