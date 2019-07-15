@@ -9,7 +9,7 @@
         <meta name="title" content="Welcome to FOSSEE's Animation for Education">
         <meta name="description" content=".">
         <meta name="keywords" content="fossee, iit bombay, animation based learning math, manim, python based animations">
-		
+
 		<title>FOSSEE Animations</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,9 +50,9 @@
 			  	</button>
 
 			  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<form class="form-inline" id="search_bar" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px ">
+					<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px ">
 						{% csrf_token %}
-						<input class="form-control mr-sm-2" type="search" id="search_tab" placeholder="Search">
+						<input class="form-control mr-sm-2" type="search" id="sbox" name="sbox" placeholder="Search">
 							<button class="btn btn-primary my-2 my-sm-0" type="submit">
 							Search
 							</button>
