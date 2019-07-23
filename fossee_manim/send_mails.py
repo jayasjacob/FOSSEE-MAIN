@@ -64,10 +64,13 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		message = dedent("""\
 					Thank you for registering as a contributor at FOSSEE Animations.
 					Please click on the below link to activate your account {0}/activate_user/{1}
-					Once you've activated your account, you can go ahead and submit proposal.
+					Once you've activated your account, you can go ahead and submit a proposal.
 
 					In case you have any queries regarding submition of proposal(s),
-					revert to this email.""".format(PRODUCTION_URL, key))
+					revert to this email.
+
+					Best regards,
+					FOSSEE Animations Team""".format(PRODUCTION_URL, key))
 
 		logging.info("New Registration from: %s", request.user.email)
 		try:
@@ -84,28 +87,33 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 		message = dedent("""\
 					Hey {0},
 
-					Congratulations! your animations has been published on the FOSSEE animation website.
+					Congratulations! your animation has been published on the FOSSEE animation website.
 					People will be able to search for your animation within 72 working hours.
 
-					Please start with your honorarium process. Please visit https://animations.fossee.in/honorarium/ for more details.
+					Please start with your honorarium process. Visit https://animations.fossee.in/honorarium/ for more details.
 
 					In case of queries, please revert to this
-					email.""".format(contributor.profile.user.username))
+					email.
+
+					Best regards,
+					FOSSEE Animations Team""".format(contributor.profile.user.username))
 
 		logging.info("Released Animation: %s", request.user.email)
 		send_mail(
-			"Congratulations! Your Animation was Accepted!", message, SENDER_EMAIL,
+			"Congratulations! Your Animation has been Accepted!", message, SENDER_EMAIL,
 				[contributor.profile.user.email], fail_silently=True
 				)
 	elif call_on == 'rejected':
 		message = dedent("""\
 					Dear {0},
 
-					Thank you for your patience, we're sorry to inform that your proposal was unsucessful.
-					You can work on the feedback given by the reviewer or send us another proposal on a different topic!
+					Thank you for your patience. We're sorry to inform that your proposal was unsuccessful.
+					However, do not be discouraged. You can work on the feedback given by the reviewer or send us another proposal on a different topic!
 
-					If you have any queries or if you think there has been some mistake, please revert back to this
-					email.""".format(contributor.profile.user.username))
+					If you have any queries or if you think there has been some mistake, please revert back to this email.
+
+					Best regards,
+					FOSSEE Animations Team""".format(contributor.profile.user.username))
 
 		logging.info("FOSSEE Animations | Proposal Outcome: %s", request.user.email)
 		send_mail(
@@ -120,7 +128,10 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 					Follow this link to login {2}/login
 
 					In case of queries, please revert to this
-					email.""".format(contributor.profile.user.username,
+					email.
+
+					Best regards,
+					FOSSEE Animations Team""".format(contributor.profile.user.username,
 								    proposal.title, PRODUCTION_URL))
 
 		logging.info("Comment by Reviewer: %s", request.user.email)
@@ -135,7 +146,10 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 					Please find the attachment, fill the form and reply to this e-mail.
 
 					In case of queries, please revert to this
-					email.""".format(contributor.profile.user.username))
+					email.
+
+					Best regards,
+					FOSSEE Animations Team""".format(contributor.profile.user.username))
 
 		logging.info("Animation Proposal Form 2: %s", request.user.email)
 		subject = "FOSSEE Animation Proposal Form 2"
