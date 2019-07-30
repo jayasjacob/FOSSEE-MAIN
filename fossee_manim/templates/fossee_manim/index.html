@@ -37,7 +37,7 @@
 			}
 		</style>
 		<link href="https://fonts.googleapis.com/css?family=Raleway:400,500|Lato&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/custom_font.css" type="text/css" />
+		<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/custom_index.css" type="text/css" />
 		<!-- favicon -->
 		<link rel="shortcut icon" href="{{ URL_ROOT }}/static/img/favicon.ico" />
 		</head>
@@ -54,13 +54,14 @@
 			  	</button>
 
 			  	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px ">
+					<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px; ">
 						{% csrf_token %}
-						<input class="form-control mr-sm-2" type="search" id="sbox" name="sbox" placeholder="Search">
-							<button class="btn btn-primary my-2 my-sm-0" type="submit">
+						<input class="form-control mr-sm-2" type="search" id="sbox" name="sbox" placeholder="Search for animations">
+							<button class="btn btn-primary my-2 my-sm-0" type="submit" style="background-color: #1facb3; border:0px">
 							Search
 							</button>
 					</form>
+
 
 					<ul class="navbar-nav ml-md-auto">
 						<li class="nav-item dropdown">
@@ -133,9 +134,9 @@
 
 			<!--Infographics-->
 
-			<div class="jumbotron row text-center" style="background-color: white; margin: 10px;">
+			<div class="jumbotron row text-center" id= "infg" style="background-color: white; margin: 10px; font-family:'Lato', sans-serif; font-weight:400">
 				<div class="container text-center">
-				 	<h1 style="color: #e45700"><b>HOW IT WORKS</b></h1>
+				 	<h1 style="color: #e45700; font-family:'Raleway', sans-serif;">HOW IT WORKS</h1>
 					<img  class="img-fluid d-block text-center" width="100%" src="{{ URL_ROOT }}/static/img/info.svg" alt="Infographic">
 					<br>
 					Want to know more? Visit our <a href="{{URL_ROOT}}/guidelines/"  style="background-color:#157b80; color:white;">Guidelines</a> page!
@@ -143,31 +144,30 @@
 			</div>
 
 		<!--Footer-->
-		<div class="jumbotron row" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
+		<div class="jumbotron row" id="mainfooter" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important; padding-top:35px; padding-bottom:35px" >
 
 			<div class="container">
-				<div class="row">
+				<div class="row" style= >
 				    <div class="col-md text-center">
 				        <img src="{{ URL_ROOT }}/static/img/fossee_logo_iitb.png" style="">
 				    </div>
-				    <div class="col-md text" style="color:#e9ecef;">
+				    <div class="col-md text" style="color:#dddddd;">
 				        FOSSEE | IIT-Bombay <br>
 				        Mumbai, India  - 400-076 <br>
 				        Phone: (+91) 22-2576-4133<br>
 				        Email: animations@fossee.in
 				    </div>
-				    <div class="col-md text-center" style="color:#e9ecef; margin-top: 15px">
-				      <b>Follow us on:<br/>
+				    <div class="col-md text-center" style="color:#dddddd; margin-top: 15px">
+				      Follow us on:<br/>
 				      <a href="https://twitter.com/fosseenmeict" class="fa fa-twitter"></a>
 				      <a href="https://www.instagram.com/fossee_nmeict/" class="fa fa-instagram"></a>
 					  <a href="https://www.facebook.com/FOSSEENMEICT/" class="fa fa-facebook"></a>
 					  <a href="https://github.com/FOSSEE/" class="fa fa-github"></a>
 					</div>
-				</div>
-				<hr>
-				<div class="text-center row" style="color: #e9ecef; padding:10px; text-align:center">
-				    The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
-				        This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+					<div class="text-center row" style="color: #dddddd;   margin-left: 70px; margin-top: 30px;text-align:center;">
+						The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
+						This work is licensed under a <br>Creative Commons Attribution-ShareAlike 4.0 International License
+					</div>
 				</div>
 			</div>
 		</div>
