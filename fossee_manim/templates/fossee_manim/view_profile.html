@@ -12,8 +12,9 @@
 
 {% csrf_token %}
 {% block content %}
-  <br>
   <div class="container jumbotron" style="background-color:white;">
+    <center>  <h1> View Profile </h1> </center>
+    <br>
   <table class="table table-bordered">
   <tr>
     <th><label for="id_first_name"><h5>First name:</h5></label></th>
@@ -49,7 +50,7 @@
   </tr>
   </table>
     <br>
-    <a class="btn btn-primary pull-right" href="{{ URL_ROOT }}/edit_profile/">Edit Profile</a>
+    <a class="btn btn-primary pull-right" href="{{ URL_ROOT }}/edit_profile/" style= "background-color: #1facb3; border-width: 0px;">Edit Profile</a>
   </div>
   <br><br>
 {% endblock %}

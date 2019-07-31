@@ -19,15 +19,6 @@
 
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ URL_ROOT }}/static/img/favicon.ico" />
-	<style type="text/css">
-		.perma_link:hover{
-			background-color:#d1d2d3;
-			text-decoration: none;
-		}
-		.perma_link a{
-			text-decoration: none;
-		}
-	</style>
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500|Lato&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/custom_base.css" type="text/css" />
 </head>
@@ -48,11 +39,11 @@
 		</button>
 
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px">
+			<form class="form-inline" method="POST" action="/search/" style="margin-left: 10px; margin-top: 10px; ">
 				{% csrf_token %}
 				<input class="form-control mr-sm-2" type="search" id="sbox" name="sbox" placeholder="Search for animations">
-					<button class="btn btn-primary my-2 my-sm-0" type="submit">
-			 		Search
+					<button class="btn btn-primary my-2 my-sm-0" type="submit" style="background-color: #1facb3; border:0px">
+					Search
 					</button>
 			</form>
 
@@ -86,7 +77,7 @@
 		    </ul>
 	   </div>
     </nav>
-	<div class="jumbotron  sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd">
+	<div class="jumbotron sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd">
 		<div class="btn-group btn-group-lg" role="group">
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'about' %}" style="color:#157b80">About</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'guidelines' %}" style="color:#222222">Guidelines</a></button>
@@ -96,15 +87,15 @@
 		</div>
 	</div>
   	{% endblock %}
-	<main role="main" class="container">
+	<!-- <main role="main" class="container"> -->
     {% block content %}
     <br><br>
 		<h1>Base Template Content. Please override me</h1>
 	{% endblock %}
-	</main>
+	<!-- </main> -->
 
 	{% block footer %}
-	<div class="jumbotron" id="basefooter" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
+	<div class="jumbotron" id="basefooter" style="background-color: #222222; margin-bottom: 0px; padding: 40px;border-radius: 0 !important;">
 
 		<div class="container">
 			<div class="row">

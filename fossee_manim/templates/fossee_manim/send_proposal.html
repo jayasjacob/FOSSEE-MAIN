@@ -16,11 +16,6 @@
 			</ul>
 			{% endif %}
 
-
-  	<!-- <div class="container-fluid jumbotron"  align = "justify"> -->
-  		<!-- <h1><center>Proposal - Stage 1</center></h1> -->
-	<!-- </div> -->
-
 	<div class="container-fluid jumbotron" align="center" style="background-color: white;">
 		<h1><center>Proposal - Stage 1</center></h1>
 			<div class="alert alert-info">
@@ -38,6 +33,14 @@
 			<br>
 			<br>
 			<button class="btn btn-success" type="submit">Save</button>
-			</form>
+		</form>
+
+		<!-- Initialize Quill editor -->
+		<script>
+		  var quill = new Quill('#custom_editor', {
+		    theme: 'snow'
+		  });
+		</script>
+
 	</div>
 	{% endblock %}

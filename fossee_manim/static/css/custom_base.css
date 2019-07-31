@@ -2,7 +2,32 @@
     font-family: 'Raleway', sans-serif;
     font-size: 15px;
 }
+
 #basefooter{
     font-family: 'Lato', sans-serif;
     font-weight: 400;
+}
+h1,
+h2,
+form,
+.btn{
+    font-family: 'Raleway', sans-serif;
+}
+p,
+h3,
+h4,
+h5,
+h6,
+.card-body{
+    font-family: 'Lato', sans-serif;
+}
+.perma_link:hover{
+    background-color:#d1d2d3;
+    text-decoration: none;
+}
+.perma_link a{
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
 }
