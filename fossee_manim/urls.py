@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^honorarium/$', views.honorarium, name='honorarium'),
     url(r'^faqs/$', views.faqs, name='faqs'),
     url(r'^search_category/(?P<cat>.+)$', views.search_category,
-        name='search_category')
+        name='search_category'),
+    url(r'^about/$',views.about, name='about'),
 ]
 
 urlpatterns += static(
