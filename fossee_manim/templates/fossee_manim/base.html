@@ -7,15 +7,29 @@
 			HomePage
 		{% endblock %}
 	</title>
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-
   	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/sticky-footer.css" type="text/css" />
 
-    <link rel="stylesheet" href="{{ URL_ROOT }}/static/css/sticky-footer.css" type="text/css" />
+	<!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
+
     <!-- favicon -->
     <link rel="shortcut icon" href="{{ URL_ROOT }}/static/img/favicon.ico" />
+	<style type="text/css">
+		.perma_link:hover{
+			background-color:#d1d2d3;
+			text-decoration: none;
+		}
+		.perma_link a{
+			text-decoration: none;
+		}
+	</style>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500|Lato&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/custom_base.css" type="text/css" />
 </head>
 
 	<!-- For js/ajax and other related scripts -->
@@ -72,9 +86,9 @@
 		    </ul>
 	   </div>
     </nav>
-	<div class="jumbotron  sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; color:#dddddd">
+	<div class="jumbotron  sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd">
 		<div class="btn-group btn-group-lg" role="group">
-			<button class="btn btn-link perma_link" type="button"><a href="#" style="color:#157b80">About</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'about' %}" style="color:#157b80">About</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'guidelines' %}" style="color:#222222">Guidelines</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'faqs' %}" style="color:#222222">FAQ</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'honorarium' %}" style="color:#222222">Honorarium</a></button>
@@ -90,29 +104,32 @@
 	</main>
 
 	{% block footer %}
-	<div class="jumbotron" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
+	<div class="jumbotron" id="basefooter" style="background-color: #222222; margin-bottom: 0px; border-radius: 0 !important;">
 
 		<div class="container">
 			<div class="row">
 				<div class="col-md text-center">
 					<img src="{{ URL_ROOT }}/static/img/fossee_logo_iitb.png" style="">
 				</div>
-				<div class="col-md text" style="color:#e9ecef;">
+				<div class="col-md text" style="color:#dddddd;">
 					FOSSEE | IIT-Bombay <br>
 					Mumbai, India  - 400-076 <br>
 					Phone: (+91) 22-2576-4133<br>
 					Email: animations@fossee.in
 				</div>
-				<div class="col-md text-center" style="color:#e9ecef; margin-top: 15px">
-				  <b>Follow us on:<br/>
+				<div class="col-md text-center" style="color:#dddddd; margin-top: 15px">
+				  Follow us on:<br/>
 				  <a href="https://twitter.com/fosseenmeict" class="fa fa-twitter"></a>
+				  &nbsp; &nbsp; &nbsp;
 				  <a href="https://www.instagram.com/fossee_nmeict/" class="fa fa-instagram"></a>
+				  &nbsp; &nbsp; &nbsp;
 				  <a href="https://www.facebook.com/FOSSEENMEICT/" class="fa fa-facebook"></a>
+				  &nbsp; &nbsp; &nbsp;
 				  <a href="https://github.com/FOSSEE/" class="fa fa-github"></a>
 				</div>
 			</div>
 			<hr>
-			<div class="text-center row" style="color: #e9ecef; color:white;  padding:10px;margin-left: 10px; text-align:center">
+			<div class="text-center row" style="color: #dddddd; color:white;  padding:10px;margin-left: 10px; text-align:center">
 				The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
 					This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
 			</div>
