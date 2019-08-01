@@ -250,9 +250,16 @@ class AnimationProposal(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AnimationProposal, self).__init__(*args, **kwargs)
         self.fields['subcategory'].widget.attrs['placeholder'] = 'Eg: Quantum Mechanics, Topology'
-        self.fields['outline'].widget.attrs['placeholder'] = 'NOTE:-Do\
- add info about prerequisites (if any), possible textbooks and \
- any other related information'
+        # self.fields['outline'].widget.attrs['placeholder'] = 'NOTE: Do\
+        #  add info about prerequisites (if any), possible textbooks and \
+        #  any other related information'
+        self.fields['outline'].widget.attrs={
+            'id': 'custom_editor',
+            'rows': 10,
+            'cols': 50,
+            'placeholder': ('NOTE: Do add info about prerequisites (if any), possible textbooks and '
+            'any other related information')
+        }
 
     class Meta:
         model = Animation

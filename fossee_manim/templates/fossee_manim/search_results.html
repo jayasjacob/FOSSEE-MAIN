@@ -5,6 +5,7 @@
 	{% endblock %}
 
 {% block content %}
+<br> <br>
 <div class="container-fluid jumbotron" style="margin-top:20px">
 		{% if s_result %}
 			{% for anime in s_result %}
@@ -16,8 +17,8 @@
 						</a>
 					</div>
 					<div class="col-md-4">
-						<p style="color:#26A669; font-size: 300%;"> {{ anime.animation.title }} </p>
-						<p style="color:#26A669; font-size: 100%;"> {{ anime.animation.description | truncatewords:5}} </p>
+						<p style="color:#157b80; font-size: 300%;"> {{ anime.animation.title }} </p>
+						<p style="color:black; font-size: 100%;"> {{ anime.animation.description | truncatewords:5}} </p>
 						<a target="_blank" href="{{ anime.animation.github }}"><p style="font-size: 70%;"> {{ anime.animation.github }} </p></a>
 					</div>
 				</div>

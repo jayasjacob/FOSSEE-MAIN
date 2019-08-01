@@ -35,7 +35,7 @@ except ImportError:
 
 __author__ = "Akshen Doke"
 __credits__ = ["Prabhu Ramachandran", "Aditya P.", "KhushalSingh Rajput",
-                "Prathamesh Salunke", "Purusharth Saxsena", "Sharanya Achut"
+                "Prathamesh Salunke", "Purusharth Saxsena", "Sharanya Achut", "Ankit Javalkar"
                 ]
 
 def makepath(proposal_data, reject=None):
@@ -88,7 +88,7 @@ def index(request):
 
 
 def is_reviewer(user):
-    '''Check if the user is having reviewer rights'''
+    '''Check if the user has reviewer rights'''
     return user.groups.filter(name='reviewer').exists()
 
 
@@ -304,7 +304,7 @@ def proposal_status(request):
             anime = Animation.objects.filter(contributor_id=user).order_by('-created')
         else:
             anime_list = Animation.objects.order_by('-created')
-        
+
         # Show upto 9 proposals per page
         paginator_c = Paginator(list(anime), 9)
         paginator_r  = Paginator(list(anime_list), 9)
@@ -429,7 +429,7 @@ def search(request):
             Q(animation__title__contains=word) | Q(animation__outline__contains=word)
             | Q(animation__category__name__contains=word) | Q(animation__subcategory__contains=word),
             animation__status='released')
-        
+
     return render(request, 'fossee_manim/search_results.html',
                   {'s_result': anime_list, 'categories': categories})
 
@@ -499,7 +499,7 @@ def video(request, aid=None):
                 return redirect('/login/')
     else:
         return redirect('/view_profile/')
-            
+
     if len(suggestion_list)>3:
         suggestion_list = sample(suggestion_list, 3)
     else:
@@ -525,7 +525,10 @@ def search_category(request, cat=None):
 def guidelines(request):
     categories = Category.objects.all()
     return render(request, 'fossee_manim/guidelines.html', {'categories': categories})
-    
+
+def about(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/about.html', {'categories': categories})
 
 def honorarium(request):
     categories = Category.objects.all()

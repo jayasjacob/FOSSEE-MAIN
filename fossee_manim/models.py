@@ -10,7 +10,6 @@ from os import path, sep
 import tempfile
 import subprocess
 
-
 position_choices = (
     ("contributor", "Contributor"),
     ("reviewer", "Reviewer")
@@ -220,7 +219,7 @@ class AnimationStats(models.Model):
             # some Django-specific additions
             django_file = File(que_file)
             self.thumbnail.save(file_name, django_file, save=True)
-    
+
     def _create_ogv(self):
         video_input = self.video_path.path
         vid_output = path.join(

@@ -24,7 +24,7 @@
 
 #container_img {
     margin: auto;
-    
+
 }
 
 form.example input[type=text] {
@@ -64,7 +64,7 @@ form.example::after {
 #btns {
     padding: 25 25 25 25;
     font-size: 155%;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 #btns > a {
@@ -123,4 +123,4 @@ hr {
 #circle:hover {
     background-color: #ffe0b2;
     border-radius: 50%;
-  }
+}

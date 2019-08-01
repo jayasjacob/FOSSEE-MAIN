@@ -7,8 +7,7 @@
 {% block content %}
 	<div class="container" align="center">
 		<br>
-		<h3>Login</h3>
-		<br>
+		<h1>Login</h1>
 		<form method="post">
 			  {% csrf_token %}
 			  <table class="table table-bordered">
@@ -16,10 +15,11 @@
 			  <br>
 			  <br>
 			  </table>
-				<button class="btn btn-success btn-sm" type="submit">Login</button>
-        <a href="{{URL_ROOT}}/forgotpassword/" class="btn btn-default btn-sm" style="color:#3693C0;">Forgot Password</a>
-			  <br>
+				<button class="btn btn-success btn-sm" type="submit" style="background-color:#e45700;color:white; border:0px">Login</button>
+        <a href="{{URL_ROOT}}/forgotpassword/" class="btn btn-default btn-sm" style="color:#157b80; ">Forgot Password?</a>
 		</form>
+		<br>
+		<p>Don't have an account yet? <a href="{{URL_ROOT}}/register/"  style="background-color:#157b80; color:white;">Register here!</a></p>
 		<br>
 	</div>
 	{% endblock %}

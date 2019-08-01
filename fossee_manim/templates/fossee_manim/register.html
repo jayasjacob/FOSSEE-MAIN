@@ -18,7 +18,8 @@
 
 	<div class="container" >
 		<br>
-		<h3>Contributor Registration Form</h3>
+		<center>
+		<h1>Contributor Registration Form</h1>
 		<br>
 		<form action="" method="post">
 			{% csrf_token %}
@@ -26,8 +27,9 @@
 					{{ form.as_table }}
 				</table>
 
-				<button class="btn btn-success" type="submit">Register</button>
+				<button class="btn btn-success" type="submit" style="background-color: #157b80; border-width:0px;">Register</button>
 		</form><br>
+		</center>
 		<!-- Activate when reviwers registeration starts -->
 		<!-- <div class="alert alert-info">
   			<strong>Info!</strong> reviwerss, please wait for our admin approval, if your reviwers account is not activated in 7 days, please mail us at workshops[at]fossee[dot]in

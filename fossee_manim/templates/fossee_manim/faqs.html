@@ -5,11 +5,15 @@
 	{% endblock %}
 
 {% block content %}
-
+<style>
+	span {
+		background-color: #f2e680;
+	}
+</style>
 <div class="container-fluid jumbotron" align = "justify" style="margin-top:20px">
 	 <!-- style="padding-top:120px"> -->
 <h1><center>Frequently Asked Questions</center></h1>
-	<div class="container">
+	<div class="container" style= "font-family: 'Lato', sans-serif;">
 
 	<hr/>
 	<ul>
@@ -57,7 +61,7 @@
 			Yes. One of the major focus of the FOSSEE Animations project is to promote a visual-approach to learning of science concepts.
 			The videos  are published under a Creative Commons Attribution-ShareAlike 4.0 International License licence.
 			The code used to generate the videos is to be published under the MIT license.
-			Please place the terms and conditions of the MIT license on the GitHub page of your code.
+			<span>Please place the terms and conditions of the MIT license on the GitHub page of your code.</span>
 		<br><br>
 		<li><h5>When will I receive my Honorarium?</h5></li>
 			Honorarium would generally be processed within 45 days from the day we receive your forms.
@@ -78,5 +82,6 @@
 	<br>
 
 	<h5>If you have any other queries, email us at <a href="mailto: animations@fossee.in">animations@fossee.in</a> </h2>
+</div>
 </div>
 {% endblock %}

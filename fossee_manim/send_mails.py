@@ -117,7 +117,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 		logging.info("FOSSEE Animations | Proposal Outcome: %s", request.user.email)
 		send_mail(
-			"FOSSEE Animation Status Update", message, SENDER_EMAIL,
+			"FOSSEE Animations Status Update", message, SENDER_EMAIL,
 			[contributor.profile.user.email], fail_silently=True
 				)
 	elif call_on == 'changes':
@@ -136,7 +136,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 
 		logging.info("Comment by Reviewer: %s", request.user.email)
 		send_mail(
-			"FOSSEE Animation  Comment by Reviewer", message, SENDER_EMAIL,
+			"FOSSEE Animations Comment by Reviewer", message, SENDER_EMAIL,
 			[contributor.profile.user.email], fail_silently=True)
 	elif call_on == 'proposal_form':
 		message = dedent("""\
@@ -152,7 +152,7 @@ def send_email(request, call_on, contributor=None, key=None, proposal=None):
 					FOSSEE Animations Team""".format(contributor.profile.user.username))
 
 		logging.info("Animation Proposal Form 2: %s", request.user.email)
-		subject = "FOSSEE Animation Proposal Form 2"
+		subject = "FOSSEE Animations Proposal Form 2"
 		msg = EmailMultiAlternatives(subject, message, SENDER_EMAIL,
 				[contributor.profile.user.email])
 		attachment_paths = path.join(settings.MEDIA_ROOT, "Proposal_Form")
