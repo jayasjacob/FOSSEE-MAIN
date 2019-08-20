@@ -297,32 +297,28 @@ def proposal_status(request):
     user = request.user
     if is_email_checked(user) and user.is_authenticated():
         profile = Profile.objects.get(user_id=user)
-        anime = {}
-        anime_list = {}
         categories = Category.objects.all()
         if profile.position == 'contributor':
-            anime = Animation.objects.filter(contributor_id=user).order_by('-created')
+            animations = Animation.objects.filter(contributor_id=user).order_by('-created')
         else:
-            anime_list = Animation.objects.order_by('-created')
+            animations = Animation.objects.order_by('-created')
+            # print(animations)
 
         # Show upto 9 proposals per page
-        paginator_c = Paginator(list(anime), 9)
-        paginator_r  = Paginator(list(anime_list), 9)
+        paginator = Paginator(list(animations), 9)
         page = request.GET.get('page')
         try:
-            anime  = paginator_c.page(page)
-            anime_list = paginator_r.page(page)
+            anime  = paginator.page(page)
+            print(animations.count(), anime)
         except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-            anime  = paginator_c.page(1)
-            anime_list  = paginator_r.page(1)
+            # If page is not an integer, deliver first page.
+            anime  = paginator.page(1)
         except EmptyPage:
             # If page is out of range(e.g 999999), deliver last page.
-            anime  = paginator_c.page(paginator_c.num_pages)
-            anime_list  = paginator_r.page(paginator_r.num_pages)
+            anime  = paginator.page(paginator.num_pages)
 
         return render(request, 'fossee_manim/proposal_status.html',
-                  {'anime': anime, 'anime_list': anime_list,
+                  {'anime': anime,
                    'categories': categories})
     else:
         return redirect('/login/')
