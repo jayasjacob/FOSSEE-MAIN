@@ -82,9 +82,10 @@ def index(request):
 
     user = request.user
     form = UserLoginForm()
+    categories = Category.objects.all()
     if user.is_authenticated() and is_email_checked(user):
         return redirect('/proposal_status/')
-    return render(request, "fossee_manim/index.html")
+    return render(request, "fossee_manim/index.html", {"categories": categories})
 
 
 def is_reviewer(user):
@@ -196,6 +197,10 @@ def user_register(request):
         form = UserRegistrationForm()
     return render(request, "fossee_manim/register.html", {'form': form, 'categories': categories})
 
+
+def explore(request, category):
+    videos = AnimationStats.objects.filter(animation__category__name= category , animation__status="released")
+    return render(request, "fossee_manim/explore.html", {"videos": videos})
 
 @login_required
 def view_profile(request):
