@@ -13,6 +13,7 @@
   	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
   	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/sticky-footer.css" type="text/css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
 
 	<!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
@@ -79,7 +80,7 @@
     </nav>
 	<div class="jumbotron sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd">
 		<div class="btn-group btn-group-lg" role="group">
-			<button class="btn btn-link perma_link" type="button"><a href="#" style="color:#157b80">About</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'about' %}" style="color:#157b80">Why FOSSEE Animations?</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'guidelines' %}" style="color:#222222">Guidelines</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'faqs' %}" style="color:#222222">FAQ</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'honorarium' %}" style="color:#222222">Honorarium</a></button>
@@ -91,6 +92,7 @@
     {% block content %}
     <br><br>
 		<h1>Base Template Content. Please override me</h1>
+
 	{% endblock %}
 	<!-- </main> -->
 
@@ -127,6 +129,16 @@
 		</div>
 	</div>
 	{% endblock footer%}
+<!-- START Bootstrap-Alert -->
+	<div class="alert text-center cookiealert" role="alert" style="background: #d1ff3c; color: black;">
+	    The website is currently undergoing some developmental changes. To check out sample animations, just click on the search button (without any query text) !
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+    		<span aria-hidden="true">&times;</span>
+  		</button>
+	</div>
+	<!-- END Bootstrap-Alert -->
+<!-- JS for alert -->
+<script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
 
 </body>
 
