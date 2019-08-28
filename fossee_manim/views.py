@@ -199,8 +199,10 @@ def user_register(request):
 
 
 def explore(request, category):
+    categories = Category.objects.all() #not related to category below
     videos = AnimationStats.objects.filter(animation__category__name= category , animation__status="released")
-    return render(request, "fossee_manim/explore.html", {"videos": videos})
+
+    return render(request, "fossee_manim/explore.html", {"videos": videos, "categories": categories})
 
 @login_required
 def view_profile(request):
