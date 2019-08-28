@@ -19,7 +19,7 @@
                    <a href="{% url 'video' video.id  %}">
                      <h4 class="card-text" style="color: #157b80;"> {{video.animation.title}} </h4>
                   </a>
-                   <p class="card-text"> {{video.animation.outline}}</p>
+                   <p class="card-text"> {{video.animation.outline|truncatechars:200}}</p>
 
 									 <p class="card-text" style="color: #666666"> Contributor: {{video.animation.contributor}}</p>
                    <!-- <div class="d-flex justify-content-between align-items-center"> -->
