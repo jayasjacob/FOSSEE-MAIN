@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^search_category/(?P<cat>.+)$', views.search_category,
         name='search_category'),
     url(r'^about/$',views.about, name='about'),
+    url(r'^explore/(?P<category>.+)$', views.explore,
+        name='explore'),
 ]
 
 urlpatterns += static(

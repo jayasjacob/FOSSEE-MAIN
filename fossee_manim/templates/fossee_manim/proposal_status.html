@@ -8,7 +8,6 @@
 <div class = "jumbotron" style = "background-color: white; margin-top: 0px;">
 	<div class="container" align="center">
 
-	{% if request.user.profile.position == 'contributor' %}
 	<h2> Proposal Status </h2>
 	<hr>
 	<table class="table table-hover" style= "font-family: 'Lato', sans-serif;">
@@ -17,6 +16,9 @@
 				<th>Title</th>
 				<th>Status</th>
 				<th>Created Date</th>
+				{% if request.user.profile.position == 'reviewer' %}
+				  <th>Contributor Name</th>
+				{% endif %}
 			</tr>
 		</thead>
 		{% for an in anime %}
@@ -31,41 +33,13 @@
 					<td><span class="text-info">{{ an.status }}</span></td>
 					{% endif %}
 					<td><span class="badge">{{ an.created }}</span></td>
+					{% if request.user.profile.position == 'reviewer' %}
+						<td>{{ an.contributor.get_full_name }}</td>
+					{% endif %}
 					<td><a href="{% url 'edit_proposal' an.id %}"><button type="button" class="btn btn-info" id= "btnblue">Edit</button></a></td>
 				</tr>
 			</tbody>
 		{% endfor %}
-	</table>
-		{% else %}
-
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Contributor Name</th>
-				<th>Status</th>
-				<th>Created Date</th>
-			</tr>
-		</thead>
-		{% for an in anime_list %}
-			<tbody>
-				<tr>
-					<td>{{ an.title }}</td>
-					<td>{{ an.contributor.get_full_name }}</td>
-					{% if an.status == 'rejected' %}
-						<td><span class="text-danger">{{ an.status }}</span></td>
-					{% elif an.status == 'released' %}
-						<td><span class="text-success">{{ an.status }}</span></td>
-					{% else %}
-						<td><span class="text-info">{{ an.status }}</span></td>
-					{% endif %}
-					<td><span class="badge">{{ an.created }}</span></td>
-					<td><a href="{% url 'edit_proposal' an.id %}"><button type="button" class="btn btn-info">View</button></a></td>
-				</tr>
-			</tbody>
-		{% endfor %}
-		{% endif %}
-
 	</table>
 	</div>
 
@@ -76,41 +50,21 @@
 		<nav aria-label="Page navigation">
 		 	<ul class="pagination pagination-sm">
 			  	<li class="page-item">
-				{% if request.user.profile.position == 'contributor' %}
-			      {% if anime.has_previous %}
-					<a class="page-link" tabindex="-1"
-							href="?page={{ anime.previous_page_number }}">Prev</a>
-				  {% endif %}
-			    </li>
-			    <li class="page-item">
-			    <span class="current" >
-				 Page {{ anime.number }} of {{ anime.paginator.num_pages }}
-					</span>
-				</li>
-			    <li class="page-item">
-			    {% if anime.has_next %}
-					 <a class="page-link" href="?page={{ anime.next_page_number }}"> Next
-					</a>
-				{% endif %}
-
-				{% else %}
-					{% if anime_list.has_previous %}
-					<a class="page-link" tabindex="-1"
-							href="?page={{ anime_list.previous_page_number }}"> Prev </a>
-						{% endif %}
-						</li>
-						<li class="page-item">
-						<span class="current">
-						Page {{ anime_list.number }} of {{ anime_list.paginator.num_pages }}
-							</span>
-						</li>
-						<li class="page-item">
-						{% if anime_list.has_next %}
-							<a class="page-link" href="?page={{ anime_list.next_page_number }}"> Next
-							</a>
-				{% endif %}
-
-				{% endif %}
+								    {% if anime.has_previous %}
+														<a class="page-link" tabindex="-1"
+																href="?page={{ anime.previous_page_number }}">Prev</a>
+									  {% endif %}
+								    </li>
+								    <li class="page-item">
+								    <span class="current" >
+									 Page {{ anime.number }} of {{ anime.paginator.num_pages }}
+										</span>
+									  </li>
+								    <li class="page-item">
+								    {% if anime.has_next %}
+														 <a class="page-link" href="?page={{ anime.next_page_number }}"> Next
+														</a>
+									  {% endif %}
 			    </li>
 		  	</ul>
 		</nav>
