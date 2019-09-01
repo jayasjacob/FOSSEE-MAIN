@@ -30,7 +30,7 @@
 
 <body>
  {% block header %}
- 	<nav class="navbar navbar-expand-lg row fixed-top" style="background-color:#222222; padding-top: 20px; padding-bottom: 20px;">
+ 	<nav class="navbar navbar-expand-md row fixed-top" style="background-color:#222222; padding-top: 20px; padding-bottom: 20px;">
 		<a class="navbar-brand" href="{% url 'index' %}">
 			<img src="{{ URL_ROOT }}/static/img/logo_main.png" width="150" height="33.75" alt="" style="margin-right: 50px; margin-left: 20px">
 		</a>
@@ -93,13 +93,16 @@
 		  </ul>
 	  </div>
   </nav>
-	<div class="jumbotron sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd">
+	<!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark"> -->
+
+	<div class="jumbotron sticky-top" style="padding-top: 90px; padding-bottom: 0.2%; margin-bottom: 0px; background-color: #dddddd;width:auto">
 		<div class="btn-group btn-group-lg" role="group">
-			<button class="btn btn-link perma_link" type="button"><a href="{% url 'about' %}" style="color:#157b80">Why FOSSEE Animations?</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'about' %}" style="color:#157b80">About</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'guidelines' %}" style="color:#222222">Guidelines</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'faqs' %}" style="color:#222222">FAQ</a></button>
 			<button class="btn btn-link perma_link" type="button"><a href="{% url 'honorarium' %}" style="color:#222222">Honorarium</a></button>
-			<button class="btn btn-link perma_link" type="button"><a href="{% url 'send_proposal' %}" style="color:#dd1100">Submit Proposal</a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'send_proposal' %}" style="color:#dd1100"><b>Submit Proposal</b></a></button>
+			<button class="btn btn-link perma_link" type="button"><a href="{% url 'workshops' %}" style="color:#157b80">Workshops</a></button>
 		</div>
 	</div>
   	{% endblock %}

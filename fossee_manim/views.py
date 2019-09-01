@@ -540,3 +540,7 @@ def honorarium(request):
 def faqs(request):
     categories = Category.objects.all()
     return render(request, 'fossee_manim/faqs.html', {'categories': categories})
+
+def workshops(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/workshops.html', {'categories': categories})
