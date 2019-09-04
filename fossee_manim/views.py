@@ -541,6 +541,20 @@ def faqs(request):
     categories = Category.objects.all()
     return render(request, 'fossee_manim/faqs.html', {'categories': categories})
 
-def workshops(request):
+def outreach(request):
     categories = Category.objects.all()
-    return render(request, 'fossee_manim/workshops.html', {'categories': categories})
+    return render(request, 'fossee_manim/outreach.html', {'categories': categories})
+
+def library(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/library.html', {'categories': categories})
+
+def libraryMath(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/libraryMath.html', {'categories': categories})
+def libraryPhys(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/libraryPhys.html', {'categories': categories})
+def libraryCS(request):
+    categories = Category.objects.all()
+    return render(request, 'fossee_manim/libraryCS.html', {'categories': categories})
