@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height: 100%;">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
@@ -8,11 +8,13 @@
 		{% endblock %}
 	</title>
 
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="{{ URL_ROOT }}/static/css/sticky-footer.css" type="text/css" />
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -107,29 +109,28 @@
 		</div>
 	</div>
   	{% endblock %}
-	<!-- <main role="main" class="container"> -->
+
     {% block content %}
     <br><br>
 		<h1>Base Template Content. Please override me</h1>
-
+		</div>
 	{% endblock %}
 	<!-- </main> -->
 
 	{% block footer %}
-	<div class="jumbotron" id="basefooter" style="background-color: #222222; margin-bottom: 0px; padding: 40px;border-radius: 0 !important;">
-
+<footer class= "footer" style="background-color: #222222; font-family: 'Lato', sans-serif; padding:30px;">
 		<div class="container">
 			<div class="row">
-				<div class="col-md text-center">
+				<div class="col-md-4 text-center">
 					<img src="{{ URL_ROOT }}/static/img/fossee_logo_iitb.png" style="">
 				</div>
-				<div class="col-md text" style="color:#dddddd;">
+				<div class="col-md-4 text" style="color:#dddddd;">
 					FOSSEE | IIT-Bombay <br>
 					Mumbai, India  - 400-076 <br>
 					Phone: (+91) 22-2576-4133<br>
 					Email: animations@fossee.in
 				</div>
-				<div class="col-md text-center" style="color:#dddddd; margin-top: 15px">
+				<div class="col-md-4 text-center" style="color:#dddddd; margin-top: 15px">
 				  Follow us on:<br/>
 				  <a href="https://twitter.com/fosseenmeict" class="fa fa-twitter"></a>
 				  &nbsp; &nbsp; &nbsp;
@@ -141,23 +142,27 @@
 				</div>
 			</div>
 			<hr>
-			<div class="text-center row" style="color: #dddddd; color:white;  padding:10px;margin-left: 10px; text-align:center">
+			<div class="text-center row" style="color: #dddddd; color:white;  padding:10px;margin-left: 10px; text-align:center; margin-bottom:0px;">
 				The FOSSEE project is funded by the National Mission on Education through ICT, MHRD, Government of India.
 					This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
 			</div>
 		</div>
-	</div>
-	{% endblock footer%}
+</footer>
+
+	{% endblock footer %}
+
 <!-- START Bootstrap-Alert -->
 	<div class="alert text-center cookiealert" role="alert" style="background: #d1ff3c; color: black;">
-	    The website is currently undergoing some developmental changes. If you encounter any glitches / malfunctioning, write to us at animations@fossee.in ; we value your feedback and suggestions !
+	    The website is currently undergoing some developmental changes. If you encounter any glitches, write to us at animations@fossee.in ; we value your feedback and suggestions !
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close" >
     		<span aria-hidden="true">&times;</span>
   		</button>
 	</div>
 	<!-- END Bootstrap-Alert -->
+
 <!-- JS for alert -->
 <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js"></script>
+
 
 </body>
 
