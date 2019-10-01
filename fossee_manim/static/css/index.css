@@ -132,3 +132,22 @@ hr {
     padding: 1rem;
     text-align: center;
 }
+a{
+    color:white;
+}
+
+a:hover{
+    color:white;
+    background-color: gray;
+}
+
+.navbar-toggler-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background: no-repeat center center;
+    background-size: 100% 100%;
+    background-color: white;
+}
