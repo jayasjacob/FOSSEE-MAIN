@@ -69,6 +69,7 @@
 					<a class="btn" href="{% url 'library' %}">Library</a>
 				</li>
 				{% if user.is_authenticated %}
+
 				{% if request.user.profile.position == 'contributor' %}
 
 				<li class="nav-item active">
@@ -81,6 +82,9 @@
 					<a class="btn" href="{% url 'proposal_status' %}">Submitted Proposals</a>
 				</li>
 				{% endif %}
+				<li class="nav-item active">
+					<a class="btn" href="">{{ user.username }}</a>
+				</li>
 
 				<li class="nav-item active">
 					<a class="btn" href="{% url 'view_profile' %}">View Profile</a>
